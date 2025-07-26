@@ -51,77 +51,41 @@
       flex-grow: 1;
     }
 
-    /* Cores dos eventos */
+    /* Estilos dos eventos (prioridade visual) */
     .sabbat { 
-      background-color: #e74c3c;
-      border: none !important;
-      color: white !important;
-    }
-    .lua-cheia { 
-      background-color: #3498db;
-      border: none !important;
-      color: white !important;
-    }
-    .lua-nova { 
-      background-color: #2c3e50;
-      border: none !important;
-      color: white !important;
-    }
-    .quartos { 
-      background-color: #27ae60;
-      border: none !important;
-      color: white !important;
-    }
-    .deipnon { 
-      background-color: #8e44ad;
+      background-color: #e74c3c !important;
       border: none !important;
       color: white !important;
     }
     .hekate { 
-      background-color: #9b59b6;
+      background-color: #9b59b6 !important;
       border: none !important;
-      color: white !important;
+    }
+    .lua-cheia { 
+      background-color: #3498db !important;
+      border: none !important;
+    }
+    .lua-nova { 
+      background-color: #2c3e50 !important;
+      border: none !important;
+    }
+    .deipnon { 
+      background-color: #8e44ad !important;
+      border: none !important;
+    }
+    .quartos {
+      background-color: #27ae60 !important;
+      border: none !important;
     }
 
-    /* Melhorias de layout */
+    /* Layout otimizado */
     .fc-event {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       padding: 2px 4px !important;
       margin: 1px 0;
     }
-    
-    /* Remover scroll e ajustar altura */
-    .fc-scroller-liquid-absolute {
-      overflow: hidden !important;
-    }
-    
-    .fc-daygrid-body {
-      width: 100% !important;
-    }
-
-    /* Mês em português com maiúscula */
-    .fc-toolbar-title {
-      text-transform: capitalize;
-      font-size: 1.5rem;
-      color: var(--lilás);
-    }
-
-    /* Dias da semana em português */
-    .fc-col-header-cell-cushion {
-      text-transform: capitalize;
-      color: var(--lilás);
-      padding: 8px 4px;
-    }
-
-    /* Botões de navegação */
-    .fc-button {
-      background-color: var(--roxo-claro) !important;
-      border: none !important;
-    }
-    
-    /* Rodapé do calendário */
-    .fc-footer-toolbar {
-      display: none;
+    .fc-daygrid-event {
+      white-space: normal !important;
     }
   </style>
 </head>
@@ -139,86 +103,32 @@
       const hoje = new Date();
       const ano = hoje.getFullYear();
 
-      // 1. SABBATS (Roda do Sul)
-      const sabbats = [
-        { 
-          title: "Samhain 🎃", 
-          start: `${ano}-04-30`, 
-          className: 'sabbat',
-          description: "Ano Novo Pagão - Honra aos ancestrais"
-        },
-        { 
-          title: "Yule ❄️", 
-          start: `${ano}-06-21`, 
-          className: 'sabbat',
-          description: "Solstício de Inverno"
-        },
-        { 
-          title: "Imbolc 🕯️", 
-          start: `${ano}-08-01`, 
-          className: 'sabbat',
-          description: "Festival das Luzes"
-        },
-        { 
-          title: "Ostara 🌸", 
-          start: `${ano}-09-21`, 
-          className: 'sabbat',
-          description: "Equinócio de Primavera"
-        },
-        { 
-          title: "Beltane 🔥", 
-          start: `${ano}-10-31`, 
-          className: 'sabbat',
-          description: "Festa do Fogo"
-        },
-        { 
-          title: "Litha ☀️", 
-          start: `${ano}-12-21`, 
-          className: 'sabbat',
-          description: "Solstício de Verão"
-        },
-        { 
-          title: "Lughnasadh 🌾", 
-          start: `${ano}-02-02`, 
-          className: 'sabbat',
-          description: "Festival da Colheita"
-        },
-        { 
-          title: "Mabon 🍁", 
-          start: `${ano}-03-21`, 
-          className: 'sabbat',
-          description: "Equinócio de Outono"
-        }
-      ];
-
-      // 2. Festivais de Hekate
-      const festivais = [
-        { 
-          title: "Noite da Deusa Negra", 
-          start: `${ano}-01-31`, 
-          className: 'hekate',
-          description: "Celebração de Hekate como Senhora das Sombras"
-        },
-        { 
-          title: "Festival de Hekate", 
-          start: `${ano}-08-13`, 
-          className: 'hekate',
-          description: "Celebração anual da Deusa"
-        },
-        { 
-          title: "Hekate Trivia", 
-          start: `${ano}-11-30`, 
-          className: 'hekate',
-          description: "Festival das Encruzilhadas"
-        }
-      ];
-
-      // 3. Fases da Lua (com cálculo preciso)
-      function getFasesLunares() {
-        const eventos = [];
-        const meses = 12;
+      // 1. EVENTOS FIXOS (Sabbats + Festivais)
+      const eventosFixos = [
+        // Sabbats - Roda do Sul
+        { title: "Samhain 🎃", start: `${ano}-04-30`, className: 'sabbat' },
+        { title: "Yule ❄️", start: `${ano}-06-21`, className: 'sabbat' },
+        { title: "Imbolc 🕯️", start: `${ano}-08-01`, className: 'sabbat' },
+        { title: "Ostara 🌸", start: `${ano}-09-21`, className: 'sabbat' },
+        { title: "Beltane 🔥", start: `${ano}-10-31`, className: 'sabbat' },
+        { title: "Litha ☀️", start: `${ano}-12-21`, className: 'sabbat' },
+        { title: "Lughnasadh 🌾", start: `${ano}-02-02`, className: 'sabbat' },
+        { title: "Mabon 🍁", start: `${ano}-03-21`, className: 'sabbat' },
         
-        for (let mes = 0; mes < meses; mes++) {
+        // Festivais de Hekate
+        { title: "Noite da Deusa Negra", start: `${ano}-01-31`, className: 'hekate' },
+        { title: "Festival de Hekate", start: `${ano}-08-13`, className: 'hekate' },
+        { title: "Hekate Trivia", start: `${ano}-11-30`, className: 'hekate' }
+      ];
+
+      // 2. CÁLCULO DAS FASES LUNARES (otimizado)
+      function gerarFasesLunares() {
+        const eventos = [];
+        const mesAtual = hoje.getMonth();
+        
+        // Calcula apenas para o mês atual + próximo mês (performance)
+        for (let m = 0; m < 2; m++) {
+          const mes = (mesAtual + m) % 12;
           const diasNoMes = new Date(ano, mes + 1, 0).getDate();
           
           for (let dia = 1; dia <= diasNoMes; dia++) {
@@ -226,7 +136,7 @@
             const { phase, fraction } = LunarPhase.getMoonIllumination(data);
             const dateStr = data.toISOString().split('T')[0];
 
-            // Deipnon (dia antes da Lua Nova)
+            // Deipnon (véspera da Lua Nova)
             if (fraction < 0.01) {
               const deipnonDate = new Date(data);
               deipnonDate.setDate(deipnonDate.getDate() - 1);
@@ -234,7 +144,7 @@
                 title: "🌒 Deipnon",
                 start: deipnonDate.toISOString().split('T')[0],
                 className: 'deipnon',
-                description: "Véspera da Lua Nova - Noite de Hekate"
+                display: 'background'
               });
             }
 
@@ -243,8 +153,7 @@
               eventos.push({
                 title: "🌑 Noumenia",
                 start: dateStr,
-                className: 'lua-nova',
-                description: "Lua Nova - Início do mês lunar"
+                className: 'lua-nova'
               });
             }
             // Lua Cheia
@@ -252,8 +161,7 @@
               eventos.push({
                 title: "🌕 Lua Cheia",
                 start: dateStr,
-                className: 'lua-cheia',
-                description: "Plenitude lunar - Poder máximo"
+                className: 'lua-cheia'
               });
             }
             // Quarto Crescente
@@ -261,8 +169,7 @@
               eventos.push({
                 title: "🌓 Quarto Crescente",
                 start: dateStr,
-                className: 'quartos',
-                description: "Tempo de crescimento"
+                className: 'quartos'
               });
             }
             // Quarto Minguante
@@ -270,8 +177,7 @@
               eventos.push({
                 title: "🌗 Quarto Minguante",
                 start: dateStr,
-                className: 'quartos',
-                description: "Tempo de liberação"
+                className: 'quartos'
               });
             }
           }
@@ -279,7 +185,7 @@
         return eventos;
       }
 
-      // 4. Configuração do Calendário
+      // 3. CONFIGURAÇÃO DO CALENDÁRIO
       const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
         locale: 'pt-br',
@@ -289,22 +195,18 @@
           right: 'today'
         },
         buttonText: {
-          today: 'Hoje',
-          prev: '<',
-          next: '>'
+          today: 'Hoje'
         },
         fixedWeekCount: false,
-        height: 'auto',
-        contentHeight: 'auto',
-        events: [...sabbats, ...festivais, ...getFasesLunares()],
+        events: [...eventosFixos, ...gerarFasesLunares()],
+        eventOrder: (a, b) => {
+          // Prioridade de exibição
+          const order = ['hekate', 'sabbat', 'lua-cheia', 'lua-nova', 'quartos', 'deipnon'];
+          return order.indexOf(a.className) - order.indexOf(b.className);
+        },
         eventContent: (arg) => ({
-          html: `<div title="${arg.event.extendedProps.description || ''}">${arg.event.title}</div>`
-        }),
-        eventDidMount: (info) => {
-          if (info.event.extendedProps.description) {
-            info.el.setAttribute('title', info.event.extendedProps.description);
-          }
-        }
+          html: `<div style="padding: 2px;">${arg.event.title}</div>`
+        })
       });
 
       calendar.render();
