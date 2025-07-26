@@ -247,90 +247,233 @@
       ];
 
       // 2. FASES LUNARES 2025 (com horários)
-     const fasesLua = [
+     <div class="moon-phase-block">
+  <h2>Fases da Lua e Deipnon</h2>
+  <div class="moon-phase-container">
+    <!-- O JavaScript irá preencher esta área -->
+  </div>
+</div>
+
+<style>
+.moon-phase-block {
+  background-color: #1a1a2e;
+  color: #e6e6e6;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.moon-phase-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.moon-phase-card {
+  background-color: #16213e;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.moon-phase-card h3 {
+  color: #a5b4fc;
+  margin-top: 0;
+  border-bottom: 1px solid #4a4a7a;
+  padding-bottom: 8px;
+}
+
+.new-moon {
+  border-left: 4px solid #8b5cf6;
+}
+
+.deipnon {
+  border-left: 4px solid #ec4899;
+}
+
+.first-quarter {
+  border-left: 4px solid #3b82f6;
+}
+
+.full-moon {
+  border-left: 4px solid #f59e0b;
+}
+
+.last-quarter {
+  border-left: 4px solid #10b981;
+}
+
+.moon-date {
+  font-weight: bold;
+  color: #a5b4fc;
+}
+
+.moon-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+</style>
+
+<script>
+// Dados das fases da lua
+const moonPhases = [
   // Janeiro
-  { title: "🌑", start: '2025-01-05', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-01-06', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-01-13', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-01-21', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-
+  { month: "Janeiro", phase: "Lua Nova", date: "06 Jan 20:56", type: "new-moon" },
+  { month: "Janeiro", phase: "Deipnon", date: "06 Jan", type: "deipnon" },
+  { month: "Janeiro", phase: "Primeiro Quarto", date: "13 Jan 19:26", type: "first-quarter" },
+  { month: "Janeiro", phase: "Lua Cheia", date: "21 Jan 17:30", type: "full-moon" },
+  
   // Fevereiro
-  { title: "🌑", start: '2025-02-26', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-02-27', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-02-05', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-02-12', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-02-20', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Fevereiro", phase: "Primeiro Quarto", date: "05 Fev 05:02", type: "first-quarter" },
+  { month: "Fevereiro", phase: "Lua Cheia", date: "12 Fev 10:53", type: "full-moon" },
+  { month: "Fevereiro", phase: "Último Quarto", date: "20 Fev 14:32", type: "last-quarter" },
+  { month: "Fevereiro", phase: "Lua Nova", date: "27 Fev 21:44", type: "new-moon" },
+  { month: "Fevereiro", phase: "Deipnon", date: "27 Fev", type: "deipnon" },
+  
   // Março
-  { title: "🌑", start: '2025-03-28', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-03-29', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-03-06', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-03-14', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-03-22', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Março", phase: "Primeiro Quarto", date: "06 Mar 13:31", type: "first-quarter" },
+  { month: "Março", phase: "Lua Cheia", date: "14 Mar 03:54", type: "full-moon" },
+  { month: "Março", phase: "Último Quarto", date: "22 Mar 08:29", type: "last-quarter" },
+  { month: "Março", phase: "Lua Nova", date: "29 Mar 07:57", type: "new-moon" },
+  { month: "Março", phase: "Deipnon", date: "29 Mar", type: "deipnon" },
+  
   // Abril
-  { title: "🌑", start: '2025-04-26', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-04-27', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-04-04', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-04-12', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-04-20', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Abril", phase: "Primeiro Quarto", date: "04 Abr 23:14", type: "first-quarter" },
+  { month: "Abril", phase: "Lua Cheia", date: "12 Abr 21:22", type: "full-moon" },
+  { month: "Abril", phase: "Último Quarto", date: "20 Abr 22:35", type: "last-quarter" },
+  { month: "Abril", phase: "Lua Nova", date: "27 Abr 16:31", type: "new-moon" },
+  { month: "Abril", phase: "Deipnon", date: "27 Abr", type: "deipnon" },
+  
   // Maio
-  { title: "🌑", start: '2025-05-26', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-05-27', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-05-03', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-05-11', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-05-18', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Maio", phase: "Primeiro Quarto", date: "03 Mai 00:40", type: "first-quarter" },
+  { month: "Maio", phase: "Lua Cheia", date: "11 Mai 04:43", type: "full-moon" },
+  { month: "Maio", phase: "Último Quarto", date: "18 Mai 16:19", type: "last-quarter" },
+  { month: "Maio", phase: "Lua Nova", date: "27 Mai 00:02", type: "new-moon" },
+  { month: "Maio", phase: "Deipnon", date: "27 Mai", type: "deipnon" },
+  
   // Junho
-  { title: "🌑", start: '2025-06-24', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-06-25', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-06-02', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-06-10', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-06-17', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Junho", phase: "Lua Nova", date: "25 Jun 07:31", type: "new-moon" },
+  { month: "Junho", phase: "Deipnon", date: "25 Jun", type: "deipnon" },
+  { month: "Junho", phase: "Primeiro Quarto", date: "02 Jul 16:30", type: "first-quarter" },
+  { month: "Junho", phase: "Lua Cheia", date: "10 Jul 17:36", type: "full-moon" },
+  { month: "Junho", phase: "Último Quarto", date: "17 Jul 21:37", type: "last-quarter" },
+  
   // Julho
-  { title: "🌑", start: '2025-07-23', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-07-24', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌓", start: '2025-07-01', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-  { title: "🌕", start: '2025-07-09', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-07-16', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-
+  { month: "Julho", phase: "Lua Nova", date: "24 Jul 16:11", type: "new-moon" },
+  { month: "Julho", phase: "Deipnon", date: "24 Jul", type: "deipnon" },
+  { month: "Julho", phase: "Primeiro Quarto", date: "01 Ago 09:41", type: "first-quarter" },
+  { month: "Julho", phase: "Lua Cheia", date: "09 Ago 04:55", type: "full-moon" },
+  { month: "Julho", phase: "Último Quarto", date: "16 Ago 02:12", type: "last-quarter" },
+  
   // Agosto
-  { title: "🌑", start: '2025-08-22', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-08-23', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌕", start: '2025-08-07', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-08-14', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-  { title: "🌓", start: '2025-08-31', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-
+  { month: "Agosto", phase: "Lua Nova", date: "23 Ago 03:06", type: "new-moon" },
+  { month: "Agosto", phase: "Deipnon", date: "23 Ago", type: "deipnon" },
+  { month: "Agosto", phase: "Primeiro Quarto", date: "31 Ago 03:25", type: "first-quarter" },
+  { month: "Agosto", phase: "Lua Cheia", date: "07 Set 15:08", type: "full-moon" },
+  { month: "Agosto", phase: "Último Quarto", date: "14 Set 07:32", type: "last-quarter" },
+  
   // Setembro
-  { title: "🌑", start: '2025-09-20', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-09-21', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌕", start: '2025-09-07', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-09-14', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-  { title: "🌓", start: '2025-09-29', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-
+  { month: "Setembro", phase: "Lua Nova", date: "21 Set 16:54", type: "new-moon" },
+  { month: "Setembro", phase: "Deipnon", date: "21 Set", type: "deipnon" },
+  { month: "Setembro", phase: "Primeiro Quarto", date: "29 Set 20:53", type: "first-quarter" },
+  { month: "Setembro", phase: "Lua Cheia", date: "07 Out 00:47", type: "full-moon" },
+  { month: "Setembro", phase: "Último Quarto", date: "13 Out 15:12", type: "last-quarter" },
+  
   // Outubro
-  { title: "🌑", start: '2025-10-20', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-10-21', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌕", start: '2025-10-07', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌗", start: '2025-10-13', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-  { title: "🌓", start: '2025-10-29', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-
+  { month: "Outubro", phase: "Lua Nova", date: "21 Out 09:25", type: "new-moon" },
+  { month: "Outubro", phase: "Deipnon", date: "21 Out", type: "deipnon" },
+  { month: "Outubro", phase: "Primeiro Quarto", date: "29 Out 13:20", type: "first-quarter" },
+  { month: "Outubro", phase: "Lua Cheia", date: "05 Nov 10:19", type: "full-moon", note: "Superlua" },
+  
   // Novembro
-  { title: "🌑", start: '2025-11-19', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-11-20', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌕", start: '2025-11-05', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar (Superlua)." },
-  { title: "🌗", start: '2025-11-12', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Última fase antes da Lua Nova." },
-  { title: "🌓", start: '2025-11-28', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." },
-
+  { month: "Novembro", phase: "Lua Nova", date: "20 Nov 03:48", type: "new-moon" },
+  { month: "Novembro", phase: "Deipnon", date: "20 Nov", type: "deipnon" },
+  { month: "Novembro", phase: "Primeiro Quarto", date: "28 Nov 03:59", type: "first-quarter" },
+  { month: "Novembro", phase: "Lua Cheia", date: "04 Dez 20:15", type: "full-moon", note: "Superlua" },
+  
   // Dezembro
-  { title: "🌑", start: '2025-12-18', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Rito de purificação antes da Lua Nova." },
-  { title: "🌒", start: '2025-12-19', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do novo ciclo lunar." },
-  { title: "🌕", start: '2025-12-04', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-12-27', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeira fase crescente da Lua." }
+  { month: "Dezembro", phase: "Lua Nova", date: "19 Dez", type: "new-moon" },
+  { month: "Dezembro", phase: "Deipnon", date: "19 Dez", type: "deipnon" }
 ];
+
+function getMoonIcon(phaseType) {
+  const icons = {
+    "new-moon": "🌑",
+    "deipnon": "⚫",
+    "first-quarter": "🌓",
+    "full-moon": "🌕",
+    "last-quarter": "🌗"
+  };
+  return icons[phaseType] || "🌙";
+}
+
+function renderMoonPhases() {
+  const container = document.querySelector('.moon-phase-container');
+  container.innerHTML = '';
+  
+  // Agrupar por mês
+  const phasesByMonth = {};
+  moonPhases.forEach(phase => {
+    if (!phasesByMonth[phase.month]) {
+      phasesByMonth[phase.month] = [];
+    }
+    phasesByMonth[phase.month].push(phase);
+  });
+  
+  // Renderizar cada mês
+  for (const month in phasesByMonth) {
+    const monthCard = document.createElement('div');
+    monthCard.className = 'moon-phase-card';
     
+    const monthTitle = document.createElement('h3');
+    monthTitle.textContent = month;
+    monthCard.appendChild(monthTitle);
+    
+    const phasesList = document.createElement('ul');
+    phasesList.style.paddingLeft = '20px';
+    
+    phasesByMonth[month].forEach(phase => {
+      const phaseItem = document.createElement('li');
+      phaseItem.className = phase.type;
+      phaseItem.style.marginBottom = '8px';
+      
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'moon-icon';
+      iconSpan.textContent = getMoonIcon(phase.type);
+      
+      const phaseNameSpan = document.createElement('span');
+      phaseNameSpan.textContent = `${phase.phase}: `;
+      phaseNameSpan.style.fontWeight = 'bold';
+      
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'moon-date';
+      dateSpan.textContent = phase.date;
+      
+      phaseItem.appendChild(iconSpan);
+      phaseItem.appendChild(phaseNameSpan);
+      phaseItem.appendChild(dateSpan);
+      
+      if (phase.note) {
+        const noteSpan = document.createElement('span');
+        noteSpan.textContent = ` (${phase.note})`;
+        noteSpan.style.color = '#f59e0b';
+        phaseItem.appendChild(noteSpan);
+      }
+      
+      phasesList.appendChild(phaseItem);
+    });
+    
+    monthCard.appendChild(phasesList);
+    container.appendChild(monthCard);
+  }
+}
+
+// Renderizar quando a página carregar
+document.addEventListener('DOMContentLoaded', renderMoonPhases);
+</script>
 
 // Configuração para FullCalendar
 const calendarConfig = {
