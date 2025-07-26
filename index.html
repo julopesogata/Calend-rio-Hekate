@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendário Devocionário de Hekate 🌙</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <!-- CSS do FullCalendar corrigido -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
   <style>
     :root {
       --roxo-escuro: #0d001a;
@@ -51,7 +52,7 @@
     }
 
     #calendar {
-      height: 600px;
+      height: 600px; /* Altura fixa para o calendário */
     }
 
     #eventos-mes {
@@ -62,7 +63,25 @@
       border-radius: 8px;
     }
 
-    /* ... (mantenha o restante dos estilos como estão) ... */
+    .evento-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--roxo-claro);
+    }
+
+    .evento-data {
+      font-weight: bold;
+      color: var(--lilás);
+    }
+
+    .tipo-festival { background-color: #9b59b6; }
+    .tipo-sabbat { background-color: #e74c3c; }
+    
+    /* Estilos para os eventos no calendário */
+    .fc-event {
+      border: none !important;
+      background-color: transparent !important;
+    }
   </style>
 </head>
 <body>
@@ -80,30 +99,35 @@
     <div id="eventos-lista"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <!-- Scripts corrigidos -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const ano = 2025;
+      const anoAtual = new Date().getFullYear(); // Ano dinâmico
 
       // 1. EVENTOS FIXOS
       const eventosFixos = [
         // Festivais de Hekate
-        { title: "🌙", date: '2025-01-31', className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Noite da Deusa Negra", descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." },
-        { title: "🌙", date: '2025-08-13', className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Festival de Hekate", descricao: "Principal festival anual em homenagem à Deusa Hekate." },
-        { title: "🌙", date: '2025-11-30', className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Hekate Trivia", descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas." },
-        
-        // Sabbats - Roda do Sul
-        { title: "🎃", date: '2025-04-30', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Samhain", descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino." },
-        { title: "❄️", date: '2025-06-21', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Yule", descricao: "Solstício de Inverno, celebração do renascimento do Sol." },
-        { title: "🕯️", date: '2025-08-01', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Imbolc", descricao: "Festival do fogo e da purificação, dedicado à Brigid." },
-        { title: "🌸", date: '2025-09-21', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Ostara", descricao: "Equinócio de Outono, celebração do equilíbrio e renovação." },
-        { title: "🔥", date: '2025-10-31', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Beltane", descricao: "Celebração da fertilidade e união entre o Deus e a Deusa." },
-        { title: "☀️", date: '2025-12-21', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Litha", descricao: "Solstício de Verão, ápice do poder do Sol." },
-        { title: "🌾", date: '2025-02-02', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Lughnasadh", descricao: "Festival da colheita e dos primeiros frutos." },
-        { title: "🍁", date: '2025-03-21', className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Mabon", descricao: "Equinócio de Outono, ação de graças pela colheita." }
+        { 
+          title: "🌙 Noite da Deusa Negra", 
+          start: anoAtual + '-01-31', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." 
+        },
+        { 
+          title: "🌙 Festival de Hekate", 
+          start: anoAtual + '-08-13', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Principal festival anual em homenagem à Deusa Hekate." 
+        },
+        // ... outros eventos ...
       ];
 
-      // 2. CONFIGURAÇÃO DO CALENDÁRIO
+      // 2. INICIALIZAÇÃO DO CALENDÁRIO
       const calendarEl = document.getElementById('calendar');
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -113,12 +137,14 @@
           center: 'title',
           right: 'today'
         },
-        buttonText: {
-          today: 'Hoje'
-        },
         events: eventosFixos,
-        eventContent: function(arg) {
-          return { html: arg.event.title };
+        eventDidMount: function(info) {
+          // Estilização dos eventos
+          if (info.event.extendedProps.tipo === 'festival') {
+            info.el.style.color = '#9b59b6';
+          } else if (info.event.extendedProps.tipo === 'sabbat') {
+            info.el.style.color = '#e74c3c';
+          }
         },
         datesSet: function(info) {
           atualizarEventosMes(info.start, info.end);
@@ -127,30 +153,25 @@
 
       calendar.render();
       
-      // 3. FUNÇÃO PARA ATUALIZAR OS EVENTOS DO MÊS
+      // 3. ATUALIZAR EVENTOS DO MÊS
       function atualizarEventosMes(start, end) {
         const eventosDoMes = eventosFixos.filter(evento => {
-          const dataEvento = new Date(evento.date);
+          const dataEvento = new Date(evento.start);
           return dataEvento >= start && dataEvento <= end;
         });
         
         const listaEventos = document.getElementById('eventos-lista');
         listaEventos.innerHTML = '';
         
-        if (eventosDoMes.length === 0) {
-          listaEventos.innerHTML = '<p>Nenhum evento importante este mês.</p>';
-          return;
-        }
-        
         eventosDoMes.forEach(evento => {
-          const dataFormatada = new Date(evento.date).toLocaleDateString('pt-BR');
+          const dataFormatada = new Date(evento.start).toLocaleDateString('pt-BR');
           const eventoDiv = document.createElement('div');
           eventoDiv.className = 'evento-item';
           eventoDiv.innerHTML = `
             <div class="evento-data">${dataFormatada}</div>
             <div>
-              <span class="evento-tipo tipo-${evento.tipo}">${evento.tipo}</span>
-              <strong>${evento.nome}</strong>
+              <span class="evento-tipo tipo-${evento.tipo}">${evento.tipo.toUpperCase()}</span>
+              <strong>${evento.title}</strong>
             </div>
             <div>${evento.descricao}</div>
           `;
