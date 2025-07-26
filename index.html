@@ -61,31 +61,17 @@
       border: none !important;
       color: white !important;
     }
-
-    /* Melhorias de layout */
-    .fc-event {
-      font-size: 0.9rem;
-      padding: 2px 4px !important;
-      margin: 1px 0;
-    }
-    
-    /* Mês em português com maiúscula */
-    .fc-toolbar-title {
-      text-transform: capitalize;
-      font-size: 1.5rem;
-      color: var(--lilás);
-    }
-
-    /* Dias da semana em português */
-    .fc-col-header-cell-cushion {
-      text-transform: capitalize;
-      color: var(--lilás);
-    }
-
-    /* Botões de navegação */
-    .fc-button {
-      background-color: var(--roxo-claro) !important;
+    .fase-lunar {
+      background-color: transparent !important;
       border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Ícones lunares */
+    .fc-event-lua {
+      font-size: 1.2rem;
+      padding: 0 !important;
+      background: transparent !important;
     }
   </style>
 </head>
@@ -103,69 +89,31 @@
       const hoje = new Date();
       const ano = hoje.getFullYear();
 
-      // 1. EVENTOS FIXOS (Sabbats + Festivais)
+      // 1. DATAS FIXAS PRÉ-DEFINIDAS (Sabbats + Festivais + Luas)
       const eventos = [
         // Festivais de Hekate
-        { 
-          title: "Noite da Deusa Negra", 
-          start: `${ano}-01-31`, 
-          className: 'evento-hekate'
-        },
-        { 
-          title: "Festival de Hekate", 
-          start: `${ano}-08-13`, 
-          className: 'evento-hekate'
-        },
-        { 
-          title: "Hekate Trivia", 
-          start: `${ano}-11-30`, 
-          className: 'evento-hekate'
-        },
+        { title: "Noite da Deusa Negra", date: `${ano}-01-31`, className: 'evento-hekate' },
+        { title: "Festival de Hekate", date: `${ano}-08-13`, className: 'evento-hekate' },
+        { title: "Hekate Trivia", date: `${ano}-11-30`, className: 'evento-hekate' },
         
         // Sabbats - Roda do Sul
-        { 
-          title: "Samhain 🎃", 
-          start: `${ano}-04-30`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Yule ❄️", 
-          start: `${ano}-06-21`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Imbolc 🕯️", 
-          start: `${ano}-08-01`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Ostara 🌸", 
-          start: `${ano}-09-21`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Beltane 🔥", 
-          start: `${ano}-10-31`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Litha ☀️", 
-          start: `${ano}-12-21`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Lughnasadh 🌾", 
-          start: `${ano}-02-02`, 
-          className: 'sabbat'
-        },
-        { 
-          title: "Mabon 🍁", 
-          start: `${ano}-03-21`, 
-          className: 'sabbat'
-        }
+        { title: "Samhain 🎃", date: `${ano}-04-30`, className: 'sabbat' },
+        { title: "Yule ❄️", date: `${ano}-06-21`, className: 'sabbat' },
+        { title: "Imbolc 🕯️", date: `${ano}-08-01`, className: 'sabbat' },
+        { title: "Ostara 🌸", date: `${ano}-09-21`, className: 'sabbat' },
+        { title: "Beltane 🔥", date: `${ano}-10-31`, className: 'sabbat' },
+        { title: "Litha ☀️", date: `${ano}-12-21`, className: 'sabbat' },
+        { title: "Lughnasadh 🌾", date: `${ano}-02-02`, className: 'sabbat' },
+        { title: "Mabon 🍁", date: `${ano}-03-21`, className: 'sabbat' },
+        
+        // Fases da Lua (datas exemplos - substitua pelas corretas)
+        { title: "🌑", date: `${ano}-01-11`, className: 'fase-lunar fc-event-lua' },
+        { title: "🌕", date: `${ano}-01-25`, className: 'fase-lunar fc-event-lua' },
+        { title: "🌓", date: `${ano}-01-18`, className: 'fase-lunar fc-event-lua' },
+        { title: "🌗", date: `${ano}-02-03`, className: 'fase-lunar fc-event-lua' }
       ];
 
-      // 2. CONFIGURAÇÃO DO CALENDÁRIO
+      // 2. CONFIGURAÇÃO SIMPLES DO CALENDÁRIO
       const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
         locale: 'pt-br',
@@ -175,14 +123,11 @@
           right: 'today'
         },
         buttonText: {
-          today: 'Hoje',
-          prev: '◄',
-          next: '►'
+          today: 'Hoje'
         },
-        fixedWeekCount: false,
         events: eventos,
         eventContent: (arg) => ({
-          html: `<div style="padding: 2px;">${arg.event.title}</div>`
+          html: `<div>${arg.event.title}</div>`
         })
       });
 
