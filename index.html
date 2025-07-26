@@ -228,100 +228,64 @@
       // 2. FASES LUNARES (exemplo para vários meses)
       const fasesLua = [
   // Janeiro
-  { title: "🌑", start: '2025-01-11', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-01-28', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-01-18', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-01-04', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-01-10', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-01-12', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-01-06T20:56:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-01-13T19:26:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-01-29T09:35:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Fevereiro
-  { title: "🌑", start: '2025-02-09', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-02-27', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-02-17', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-02-03', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-02-08', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-02-10', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-02-05T05:02:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-02-12T10:53:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-02-27T21:44:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Março
-  { title: "🌑", start: '2025-03-11', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-03-28', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-03-19', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-03-05', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-03-10', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-03-12', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-03-06T13:31:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-03-14T03:54:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-03-29T07:57:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Abril
-  { title: "🌑", start: '2025-04-09', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-04-27', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-04-17', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-04-03', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-04-08', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-04-10', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-04-04T23:14:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-04-12T21:22:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-04-27T16:31:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Maio
-  { title: "🌑", start: '2025-05-09', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-05-26', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-05-17', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-05-03', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-05-08', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-05-10', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-05-04T10:51:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-05-12T13:55:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-05-27T00:02:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Junho
-  { title: "🌑", start: '2025-06-07', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-06-25', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-06-15', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-06-01', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-06-06', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-06-08', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-06-03T00:40:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-06-11T04:43:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-06-25T07:31:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Julho
-  { title: "🌑", start: '2025-07-07', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-07-24', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-07-15', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-07-01', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-07-06', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-07-08', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-07-02T16:30:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-07-10T17:36:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-07-24T16:11:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Agosto
-  { title: "🌑", start: '2025-08-05', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-08-23', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-08-13', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-08-30', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-08-04', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-08-06', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-08-01T09:41:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-08-09T04:55:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-08-23T03:06:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  
   // Setembro
-  { title: "🌑", start: '2025-09-04', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-09-21', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-09-12', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-09-28', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-09-03', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-09-05', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌒", start: '2025-09-01T03:25:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { title: "🌕", start: '2025-09-07T15:08:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-09-21T16:54:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { title: "🌒", start: '2025-09-29T20:53:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  
   // Outubro
-  { title: "🌑", start: '2025-10-03', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-10-21', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-10-11', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-10-28', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-10-02', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-10-04', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌕", start: '2025-10-07T00:47:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-10-21T09:25:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { title: "🌒", start: '2025-10-29T13:20:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  
   // Novembro
-  { title: "🌑", start: '2025-11-02', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-11-19', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-11-10', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-11-26', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-11-01', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-11-03', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." },
-
+  { title: "🌕", start: '2025-11-05T10:19:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-11-20T03:47:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { title: "🌒", start: '2025-11-28T03:58:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  
   // Dezembro
-  { title: "🌑", start: '2025-12-01', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-  { title: "🌕", start: '2025-12-19', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-  { title: "🌓", start: '2025-12-09', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-  { title: "🌗", start: '2025-12-26', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-  { title: "⚫", start: '2025-11-30', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-  { title: "🌘", start: '2025-12-02', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." }
+  { title: "🌕", start: '2025-12-04T20:14:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
+  { title: "🌑", start: '2025-12-19T22:43:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." }
 ];
 
       // 3. INICIALIZAÇÃO DO CALENDÁRIO
