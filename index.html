@@ -1,389 +1,518 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calendário Devocionário de Hekate 🌙</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
-  <style>
-    :root {
-      --roxo-escuro: #0d001a;
-      --roxo-medio: #1c0033;
-      --roxo-claro: #9933ff;
-      --lilas: #d6b3ff;
-    }
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: var(--roxo-escuro);
-      color: #f4e8ff;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      text-align: center;
-      padding: 1.5rem;
-      background-color: var(--roxo-medio);
-      border-bottom: 1px solid var(--roxo-claro);
-    }
-    h1 {
-      margin: 0;
-      color: var(--lilas);
-      font-size: 2rem;
-    }
-    header p {
-      margin: 0.5rem 0 0;
-      color: var(--lilas);
-      font-size: 1rem;
-    }
-    #calendar-container {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      flex-grow: 1;
-    }
-    #calendar {
-      height: 600px;
-      background-color: var(--roxo-medio);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-    .fc-daygrid-day.fc-day-has-event .fc-daygrid-day-number {
-      font-size: inherit;
-      font-weight: normal;
-    }
-    #eventos-mes {
-      max-width: 900px;
-      margin: 1rem auto 2rem;
-      padding: 1.5rem;
-      background-color: var(--roxo-medio);
-      border-radius: 8px;
-    }
-    .evento-item {
-      margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px dashed var(--roxo-claro);
-    }
-    .evento-data {
-      font-weight: bold;
-      color: var(--lilas);
-    }
-    .evento-tipo {
-      display: inline-block;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-      color: white;
-    }
-    .tipo-festival { background-color: #9b59b6; }
-    .tipo-sabbat { background-color: #e74c3c; }
-    .tipo-lunar { background-color: #3498db; }
-    .tipo-deipnon { background-color: #2c3e50; }
-    .tipo-noumenia { background-color: #27ae60; }
-    .fc-event-lua {
-      background: transparent !important;
-      border: none !important;
-      font-size: 1.5em;
-      padding: 2px !important;
-    }
-    .lua-nova { color: #2c3e50; }
-    .lua-cheia { color: #f1c40f; }
-    .lua-crescente { color: #27ae60; }
-    .lua-minguante { color: #e67e22; }
-    .lua-deipnon { color: #2c3e50; }
-    .lua-noumenia { color: #27ae60; }
-    .fc-col-header-cell-cushion {
-      color: var(--lilas);
-      text-transform: capitalize;
-    }
-    .fc-toolbar-title {
-      color: var(--lilas);
-      text-transform: capitalize;
-    }
-    @media (max-width: 768px) {
-      #calendar-container {
-        padding: 0 0.5rem;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      #calendar {
-        margin: 1rem 0;
-      }
-      #eventos-mes {
-        padding: 1rem;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário Devocionário de Hekate 🌙</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --roxo-escuro: #0d001a;
+      --roxo-medio: #1c0033;
+      --roxo-claro: #9933ff;
+      --lilás: #d6b3ff;
+    }
+    
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--roxo-escuro);
+      color: #f4e8ff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--roxo-medio);
+      border-bottom: 1px solid var(--roxo-claro);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--lilás);
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      color: var(--lilás);
+      font-size: 1rem;
+    }
+
+    #calendar-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    #calendar {
+      height: 600px;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .fc-daygrid-day.fc-day-has-event .fc-daygrid-day-number {
+      font-size: inherit;
+      font-weight: normal;
+    }
+
+    #eventos-mes {
+      max-width: 900px;
+      margin: 1rem auto 2rem;
+      padding: 1.5rem;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+    }
+
+    .evento-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--roxo-claro);
+    }
+
+    .evento-data {
+      font-weight: bold;
+      color: var(--lilás);
+    }
+
+    .evento-tipo {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      color: white;
+    }
+
+    .tipo-festival { background-color: #9b59b6; }
+    .tipo-sabbat { background-color: #e74c3c; }
+    .tipo-lunar { background-color: #3498db; }
+    .tipo-deipnon { background-color: #2c3e50; }
+    .tipo-noumenia { background-color: #27ae60; }
+
+    .fc-event-lua {
+      background: transparent !important;
+      border: none !important;
+      font-size: 1.5em;
+      padding: 2px !important;
+    }
+    .lua-nova { color: #2c3e50; }
+    .lua-cheia { color: #f1c40f; }
+    .lua-crescente { color: #27ae60; }
+    .lua-minguante { color: #e67e22; }
+    .lua-deipnon { color: #2c3e50; }
+    .lua-noumenia { color: #27ae60; }
+
+    .fc-col-header-cell-cushion {
+      color: var(--lilás);
+      text-transform: capitalize;
+    }
+    .fc-toolbar-title {
+      color: var(--lilás);
+      text-transform: capitalize;
+    }
+
+    /* Estilo para o bloco de fases da lua */
+    .moon-phase-block {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+    }
+
+    .moon-phase-block h2 {
+      color: var(--lilás);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .moon-phase-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .moon-phase-card {
+      background-color: var(--roxo-escuro);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .moon-phase-card h3 {
+      color: var(--lilás);
+      margin-top: 0;
+      border-bottom: 1px solid var(--roxo-claro);
+      padding-bottom: 8px;
+    }
+
+    .moon-phase-card ul {
+      padding-left: 20px;
+      list-style-type: none;
+    }
+
+    .moon-phase-card li {
+      margin-bottom: 8px;
+      padding-left: 10px;
+    }
+
+    .new-moon {
+      border-left: 4px solid var(--roxo-claro);
+    }
+
+    .deipnon {
+      border-left: 4px solid #ec4899;
+    }
+
+    .first-quarter {
+      border-left: 4px solid #3b82f6;
+    }
+
+    .full-moon {
+      border-left: 4px solid #f59e0b;
+    }
+
+    .last-quarter {
+      border-left: 4px solid #10b981;
+    }
+
+    @media (max-width: 768px) {
+      #calendar-container {
+        padding: 0 0.5rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      #calendar {
+        margin: 1rem 0;
+      }
+      
+      #eventos-mes {
+        padding: 1rem;
+      }
+      
+      .moon-phase-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-    <h1>Calendário Devocionário de Hekate 🌙</h1>
-    <p>@devocionariodehekate</p>
-  </header>
+  <header>
+    <h1>Calendário Devocionário de Hekate 🌙</h1>
+    <p>@devocionariodehekate</p>
+  </header>
 
-  <div id="calendar-container">
-    <div id="calendar"></div>
-  </div>
-  
-  <div id="eventos-mes">
-    <h2>Eventos deste mês</h2>
-    <div id="eventos-lista"></div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const anoAtual = 2025;
+  <div id="calendar-container">
+    <div id="calendar"></div>
+  </div>
+  
+  <div id="eventos-mes">
+    <h2>Eventos deste mês</h2>
+    <div id="eventos-lista"></div>
+  </div>
 
-      // Eventos fixos - Sabbats e Festivais
-      const eventosFixos = [
-        { title: "Noite da Deusa Negra", start: anoAtual + '-01-31', tipo: 'festival', descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." },
-        { title: "Festival de Hekate", start: anoAtual + '-08-13', tipo: 'festival', descricao: "Principal festival anual em homenagem à Deusa Hekate." },
-        { title: "Hekate Trivia", start: anoAtual + '-11-30', tipo: 'festival', descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas." },
-        { title: "Samhain", start: anoAtual + '-04-30', tipo: 'sabbat', descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino." },
-        { title: "Yule", start: anoAtual + '-06-21', tipo: 'sabbat', descricao: "Solstício de Inverno, celebração do renascimento do Sol." },
-        { title: "Imbolc", start: anoAtual + '-08-01', tipo: 'sabbat', descricao: "Festival do fogo e da purificação, dedicado à Brigid." },
-        { title: "Ostara", start: anoAtual + '-09-21', tipo: 'sabbat', descricao: "Equinócio de Outono, celebração do equilíbrio e renovação." },
-        { title: "Beltane", start: anoAtual + '-10-31', tipo: 'sabbat', descricao: "Celebração da fertilidade e união entre o Deus e a Deusa." },
-        { title: "Litha", start: anoAtual + '-12-21', tipo: 'sabbat', descricao: "Solstício de Verão, ápice do poder do Sol." },
-        { title: "Lughnasadh", start: anoAtual + '-02-02', tipo: 'sabbat', descricao: "Festival da colheita e dos primeiros frutos." },
-        { title: "Mabon", start: anoAtual + '-03-21', tipo: 'sabbat', descricao: "Equinócio de Outono, ação de graças pela colheita." }
-      ];
+  <div class="moon-phase-block">
+    <h2>Fases da Lua e Deipnon 2025</h2>
+    <div class="moon-phase-container">
+      <!-- Janeiro -->
+      <div class="moon-phase-card">
+        <h3>Janeiro</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 06 Jan 20:56</li>
+          <li class="deipnon">⚫ Deipnon: 06 Jan</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 13 Jan 19:26</li>
+          <li class="full-moon">🌕 Lua Cheia: 21 Jan 17:30</li>
+        </ul>
+      </div>
 
-      // Fases lunares 2025 + Deipnon (Deipnon sempre 1 dia antes da Lua Nova)
-      const fasesLua = [
-        // Janeiro
-        { title: "🌑", start: '2025-01-05', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-01-06', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova – 06 Jan 20:56" },
-        { title: "🌓", start: '2025-01-13', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Primeiro Quarto – 13 Jan 19:26" },
-        { title: "🌕", start: '2025-01-21', tipo: 'lunar', nome: "Lua Cheia", descricao: "21 Jan 17:30" },
+      <!-- Fevereiro -->
+      <div class="moon-phase-card">
+        <h3>Fevereiro</h3>
+        <ul>
+          <li class="first-quarter">🌓 Primeiro Quarto: 05 Fev 05:02</li>
+          <li class="full-moon">🌕 Lua Cheia: 12 Fev 10:53</li>
+          <li class="last-quarter">🌗 Último Quarto: 20 Fev 14:32</li>
+          <li class="new-moon">🌑 Lua Nova: 27 Fev 21:44</li>
+          <li class="deipnon">⚫ Deipnon: 27 Fev</li>
+        </ul>
+      </div>
 
-        // Fevereiro
-        { title: "🌑", start: '2025-02-26', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-02-27', tipo: 'lunar', nome: "Lua Nova", descricao: "27 Fev 21:44" },
-        { title: "🌓", start: '2025-02-05', tipo: 'lunar', nome: "Quarto Crescente", descricao: "05 Fev 05:02" },
-        { title: "🌕", start: '2025-02-12', tipo: 'lunar', nome: "Lua Cheia", descricao: "12 Fev 10:53" },
-        { title: "🌗", start: '2025-02-20', tipo: 'lunar', nome: "Quarto Minguante", descricao: "20 Fev 14:32" },
+      <!-- Março -->
+      <div class="moon-phase-card">
+        <h3>Março</h3>
+        <ul>
+          <li class="first-quarter">🌓 Primeiro Quarto: 06 Mar 13:31</li>
+          <li class="full-moon">🌕 Lua Cheia: 14 Mar 03:54</li>
+          <li class="last-quarter">🌗 Último Quarto: 22 Mar 08:29</li>
+          <li class="new-moon">🌑 Lua Nova: 29 Mar 07:57</li>
+          <li class="deipnon">⚫ Deipnon: 29 Mar</li>
+        </ul>
+      </div>
 
-        // Março
-        { title: "🌑", start: '2025-03-28', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-03-29', tipo: 'lunar', nome: "Lua Nova", descricao: "29 Mar 07:57" },
-        { title: "🌓", start: '2025-03-06', tipo: 'lunar', nome: "Quarto Crescente", descricao: "06 Mar 13:31" },
-        { title: "🌕", start: '2025-03-14', tipo: 'lunar', nome: "Lua Cheia", descricao: "14 Mar 03:54" },
-        { title: "🌗", start: '2025-03-22', tipo: 'lunar', nome: "Quarto Minguante", descricao: "22 Mar 08:29" },
+      <!-- Abril -->
+      <div class="moon-phase-card">
+        <h3>Abril</h3>
+        <ul>
+          <li class="first-quarter">🌓 Primeiro Quarto: 04 Abr 23:14</li>
+          <li class="full-moon">🌕 Lua Cheia: 12 Abr 21:22</li>
+          <li class="last-quarter">🌗 Último Quarto: 20 Abr 22:35</li>
+          <li class="new-moon">🌑 Lua Nova: 27 Abr 16:31</li>
+          <li class="deipnon">⚫ Deipnon: 27 Abr</li>
+        </ul>
+      </div>
 
-        // Abril
-        { title: "🌑", start: '2025-04-26', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-04-27', tipo: 'lunar', nome: "Lua Nova", descricao: "27 Abr 16:31" },
-        { title: "🌓", start: '2025-04-04', tipo: 'lunar', nome: "Quarto Crescente", descricao: "04 Abr 23:14" },
-        { title: "🌕", start: '2025-04-12', tipo: 'lunar', nome: "Lua Cheia", descricao: "12 Abr 21:22" },
-        { title: "🌗", start: '2025-04-20', tipo: 'lunar', nome: "Quarto Minguante", descricao: "20 Abr 22:35" },
+      <!-- Maio -->
+      <div class="moon-phase-card">
+        <h3>Maio</h3>
+        <ul>
+          <li class="first-quarter">🌓 Primeiro Quarto: 03 Mai 00:40</li>
+          <li class="full-moon">🌕 Lua Cheia: 11 Mai 04:43</li>
+          <li class="last-quarter">🌗 Último Quarto: 18 Mai 16:19</li>
+          <li class="new-moon">🌑 Lua Nova: 27 Mai 00:02</li>
+          <li class="deipnon">⚫ Deipnon: 27 Mai</li>
+        </ul>
+      </div>
 
-        // Maio
-        { title: "🌑", start: '2025-05-26', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-05-27', tipo: 'lunar', nome: "Lua Nova", descricao: "27 Mai 00:02" },
-        { title: "🌓", start: '2025-05-03', tipo: 'lunar', nome: "Quarto Crescente", descricao: "03 Mai 00:40" },
-        { title: "🌕", start: '2025-05-11', tipo: 'lunar', nome: "Lua Cheia", descricao: "11 Mai 04:43" },
-        { title: "🌗", start: '2025-05-18', tipo: 'lunar', nome: "Quarto Minguante", descricao: "18 Mai 16:19" },
+      <!-- Junho -->
+      <div class="moon-phase-card">
+        <h3>Junho</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 25 Jun 07:31</li>
+          <li class="deipnon">⚫ Deipnon: 25 Jun</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 02 Jul 16:30</li>
+          <li class="full-moon">🌕 Lua Cheia: 10 Jul 17:36</li>
+          <li class="last-quarter">🌗 Último Quarto: 17 Jul 21:37</li>
+        </ul>
+      </div>
 
-        // Junho
-        { title: "🌑", start: '2025-06-24', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-06-25', tipo: 'lunar', nome: "Lua Nova", descricao: "25 Jun 07:31" },
-        { title: "🌓", start: '2025-07-02', tipo: 'lunar', nome: "Quarto Crescente", descricao: "02 Jul 16:30 (considerado Junho)" },
-        { title: "🌕", start: '2025-07-10', tipo: 'lunar', nome: "Lua Cheia", descricao: "10 Jul 17:36" },
-        { title: "🌗", start: '2025-07-17', tipo: 'lunar', nome: "Quarto Minguante", descricao: "17 Jul 21:37" },
+      <!-- Julho -->
+      <div class="moon-phase-card">
+        <h3>Julho</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 24 Jul 16:11</li>
+          <li class="deipnon">⚫ Deipnon: 24 Jul</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 01 Ago 09:41</li>
+          <li class="full-moon">🌕 Lua Cheia: 09 Ago 04:55</li>
+          <li class="last-quarter">🌗 Último Quarto: 16 Ago 02:12</li>
+        </ul>
+      </div>
 
-        // Julho
-        { title: "🌑", start: '2025-07-23', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-07-24', tipo: 'lunar', nome: "Lua Nova", descricao: "24 Jul 16:11" },
-        { title: "🌓", start: '2025-08-01', tipo: 'lunar', nome: "Quarto Crescente", descricao: "01 Ago 09:41 (considerado Julho)" },
-        { title: "🌕", start: '2025-08-09', tipo: 'lunar', nome: "Lua Cheia", descricao: "09 Ago 04:55" },
-        { title: "🌗", start: '2025-08-16', tipo: 'lunar', nome: "Quarto Minguante", descricao: "16 Ago 02:12" },
+      <!-- Agosto -->
+      <div class="moon-phase-card">
+        <h3>Agosto</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 23 Ago 03:06</li>
+          <li class="deipnon">⚫ Deipnon: 23 Ago</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 31 Ago 03:25</li>
+          <li class="full-moon">🌕 Lua Cheia: 07 Set 15:08</li>
+          <li class="last-quarter">🌗 Último Quarto: 14 Set 07:32</li>
+        </ul>
+      </div>
 
-        // Agosto
-        { title: "🌑", start: '2025-08-22', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-08-23', tipo: 'lunar', nome: "Lua Nova", descricao: "23 Ago 03:06" },
-        { title: "🌓", start: '2025-08-31', tipo: 'lunar', nome: "Quarto Crescente", descricao: "31 Ago 03:25" },
-        { title: "🌕", start: '2025-09-07', tipo: 'lunar', nome: "Lua Cheia", descricao: "07 Set 15:08" },
-        { title: "🌗", start: '2025-09-14', tipo: 'lunar', nome: "Quarto Minguante", descricao: "14 Set 07:32" },
+      <!-- Setembro -->
+      <div class="moon-phase-card">
+        <h3>Setembro</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 21 Set 16:54</li>
+          <li class="deipnon">⚫ Deipnon: 21 Set</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 29 Set 20:53</li>
+          <li class="full-moon">🌕 Lua Cheia: 07 Out 00:47</li>
+          <li class="last-quarter">🌗 Último Quarto: 13 Out 15:12</li>
+        </ul>
+      </div>
 
-        // Setembro
-        { title: "🌑", start: '2025-09-20', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-09-21', tipo: 'lunar', nome: "Lua Nova", descricao: "21 Set 16:54" },
-        { title: "🌓", start: '2025-09-29', tipo: 'lunar', nome: "Quarto Crescente", descricao: "29 Set 20:53" },
-        { title: "🌕", start: '2025-10-07', tipo: 'lunar', nome: "Lua Cheia", descricao: "07 Out 00:47" },
-        { title: "🌗", start: '2025-10-13', tipo: 'lunar', nome: "Quarto Minguante", descricao: "13 Out 15:12" },
+      <!-- Outubro -->
+      <div class="moon-phase-card">
+        <h3>Outubro</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 21 Out 09:25</li>
+          <li class="deipnon">⚫ Deipnon: 21 Out</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 29 Out 13:20</li>
+          <li class="full-moon">🌕 Lua Cheia: 05 Nov 10:19 (Superlua)</li>
+        </ul>
+      </div>
 
-        // Outubro
-        { title: "🌑", start: '2025-10-20', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-10-21', tipo: 'lunar', nome: "Lua Nova", descricao: "21 Out 09:25" },
-        { title: "🌓", start: '2025-10-29', tipo: 'lunar', nome: "Quarto Crescente", descricao: "29 Out 13:20" },
-        { title: "🌕", start: '2025-11-05', tipo: 'lunar', nome: "Lua Cheia", descricao: "05 Nov 09:48" },
-        { title: "🌗", start: '2025-11-12', tipo: 'lunar', nome: "Quarto Minguante", descricao: "12 Nov 01:05" },
+      <!-- Novembro -->
+      <div class="moon-phase-card">
+        <h3>Novembro</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 20 Nov 03:48</li>
+          <li class="deipnon">⚫ Deipnon: 20 Nov</li>
+          <li class="first-quarter">🌓 Primeiro Quarto: 28 Nov 03:59</li>
+          <li class="full-moon">🌕 Lua Cheia: 04 Dez 20:15 (Superlua)</li>
+        </ul>
+      </div>
 
-        // Novembro
-        { title: "🌑", start: '2025-11-19', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-11-20', tipo: 'lunar', nome: "Lua Nova", descricao: "20 Nov 22:45" },
-        { title: "🌓", start: '2025-11-27', tipo: 'lunar', nome: "Quarto Crescente", descricao: "27 Nov 18:06" },
-        { title: "🌕", start: '2025-12-05', tipo: 'lunar', nome: "Lua Cheia", descricao: "05 Dez 17:02" },
-        { title: "🌗", start: '2025-12-12', tipo: 'lunar', nome: "Quarto Minguante", descricao: "12 Dez 20:11" },
+      <!-- Dezembro -->
+      <div class="moon-phase-card">
+        <h3>Dezembro</h3>
+        <ul>
+          <li class="new-moon">🌑 Lua Nova: 19 Dez</li>
+          <li class="deipnon">⚫ Deipnon: 19 Dez</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-        // Dezembro
-        { title: "🌑", start: '2025-12-19', tipo: 'deipnon', nome: "Deipnon", descricao: "Purificação antes da Lua Nova." },
-        { title: "🌒", start: '2025-12-20', tipo: 'lunar', nome: "Lua Nova", descricao: "20 Dez 16:42" },
-        { title: "🌓", start: '2026-01-04', tipo: 'lunar', nome: "Quarto Crescente", descricao: "04 Jan 00:27" },
-        { title: "🌕", start: '2026-01-03', tipo: 'lunar', nome: "Lua Cheia", descricao: "03 Jan 21:45" }
-    ];
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const anoAtual = new Date().getFullYear();
 
-    // Mapeamento de classes para os ícones das luas e cores
-    function getClassByTipo(event) {
-      if (event.tipo === 'festival') return 'tipo-festival';
-      if (event.tipo === 'sabbat') return 'tipo-sabbat';
-      if (event.tipo === 'deipnon') return 'tipo-deipnon';
-      if (event.tipo === 'noumenia') return 'tipo-noumenia';
-      if (event.tipo === 'lunar') return 'tipo-lunar';
-      return '';
-    }
+      // 1. EVENTOS FIXOS (Sabbats e Festivais)
+      const eventosFixos = [
+        // Festivais de Hekate
+        { 
+          title: "Noite da Deusa Negra", 
+          start: anoAtual + '-01-31', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." 
+        },
+        { 
+          title: "Festival de Hekate", 
+          start: anoAtual + '-08-13', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Principal festival anual em homenagem à Deusa Hekate." 
+        },
+        { 
+          title: "Hekate Trivia", 
+          start: anoAtual + '-11-30', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas." 
+        },
+        
+        // Sabbats - Roda do Sul
+        { 
+          title: "Samhain", 
+          start: anoAtual + '-04-30', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino." 
+        },
+        { 
+          title: "Yule", 
+          start: anoAtual + '-06-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Solstício de Inverno, celebração do renascimento do Sol." 
+        },
+        { 
+          title: "Imbolc", 
+          start: anoAtual + '-08-01', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Festival do fogo e da purificação, dedicado à Brigid." 
+        },
+        { 
+          title: "Ostara", 
+          start: anoAtual + '-09-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Equinócio de Outono, celebração do equilíbrio e renovação." 
+        },
+        { 
+          title: "Beltane", 
+          start: anoAtual + '-10-31', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Celebração da fertilidade e união entre o Deus e a Deusa." 
+        },
+        { 
+          title: "Litha", 
+          start: anoAtual + '-12-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Solstício de Verão, ápice do poder do Sol." 
+        },
+        { 
+          title: "Lughnasadh", 
+          start: anoAtual + '-02-02', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Festival da colheita e dos primeiros frutos." 
+        },
+        { 
+          title: "Mabon", 
+          start: anoAtual + '-03-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Equinócio de Outono, ação de graças pela colheita." 
+        }
+      ];
 
-    function getIconByNome(event) {
-      switch(event.nome) {
-        case 'Lua Nova': return '🌑';
-        case 'Quarto Crescente': return '🌓';
-        case 'Lua Cheia': return '🌕';
-        case 'Quarto Minguante': return '🌗';
-        case 'Deipnon': return '🌑';
-        case 'Noumenia': return '🌒';
-        default: return '';
-      }
-    }
-
-    // Inicializa o calendário
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      locale: 'pt-br',
-      initialView: 'dayGridMonth',
-      height: 600,
-      firstDay: 0,
-      fixedWeekCount: false,
-      showNonCurrentDates: false,
-      dayMaxEvents: true,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth'
-      },
-      events: function(fetchInfo, successCallback) {
-        let eventosMes = [];
-        // Combina eventos fixos e fases lunares do mês em exibição
-        const mesExibicao = fetchInfo.start.getMonth() + 1;
-        const anoExibicao = fetchInfo.start.getFullYear();
-
-        // Filtra eventos fixos do mês
-        eventosMes = eventosFixos.filter(ev => {
-          const data = new Date(ev.start);
-          return (data.getMonth() + 1) === mesExibicao && data.getFullYear() === anoExibicao;
-        }).map(ev => ({
-          title: ev.title,
-          start: ev.start,
-          extendedProps: { tipo: ev.tipo, descricao: ev.descricao },
-          classNames: [getClassByTipo(ev)]
-        }));
-
-        // Filtra fases lunares do mês
-        const fasesDoMes = fasesLua.filter(fase => {
-          const dataFase = new Date(fase.start);
-          return (dataFase.getMonth() + 1) === mesExibicao && dataFase.getFullYear() === anoExibicao;
-        }).map(fase => ({
-          title: getIconByNome(fase),
-          start: fase.start,
-          extendedProps: { tipo: fase.tipo, descricao: fase.descricao, nome: fase.nome },
-          classNames: ['fc-event-lua', 'lua-' + fase.nome.toLowerCase().replace(/\s/g, '')]
-        }));
-
-        successCallback(eventosMes.concat(fasesDoMes));
-      },
-      eventDidMount: function(info) {
-        // Tooltip com descrição
-        if (info.event.extendedProps.descricao) {
-          info.el.setAttribute('title', info.event.extendedProps.descricao);
-        }
-      },
-      dateClick: function(info) {
-        // Exemplo: mostrar alerta com eventos do dia (pode ser customizado)
-        // alert('Data clicada: ' + info.dateStr);
-      },
-      // Atualiza a lista de eventos do mês abaixo
-      datesSet: function(info) {
-        atualizarListaEventos(info.start);
-      }
-    });
-    calendar.render();
-
-    function atualizarListaEventos(dataInicio) {
-      const mes = dataInicio.getMonth() + 1;
-      const ano = dataInicio.getFullYear();
-      const listaEventos = document.getElementById('eventos-lista');
-      listaEventos.innerHTML = '';
-
-      // Junta eventos fixos e fases lunares do mês
-      const eventosDoMes = eventosFixos.concat(fasesLua).filter(ev => {
-        const dt = new Date(ev.start);
-        return dt.getMonth() + 1 === mes && dt.getFullYear() === ano;
-      }).sort((a,b) => new Date(a.start) - new Date(b.start));
-
-      if (eventosDoMes.length === 0) {
-        listaEventos.innerHTML = '<p>Não há eventos neste mês.</p>';
-        return;
-      }
-
-      eventosDoMes.forEach(ev => {
-        const div = document.createElement('div');
-        div.classList.add('evento-item');
-
-        const dataEv = new Date(ev.start);
-        const dataFormat = dataEv.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
-
-        // Tipo com cor
-        let tipoClasse = '';
-        switch(ev.tipo) {
-          case 'festival': tipoClasse = 'tipo-festival'; break;
-          case 'sabbat': tipoClasse = 'tipo-sabbat'; break;
-          case 'lunar': tipoClasse = 'tipo-lunar'; break;
-          case 'deipnon': tipoClasse = 'tipo-deipnon'; break;
-          case 'noumenia': tipoClasse = 'tipo-noumenia'; break;
-          default: tipoClasse = '';
-        }
-
-        const tipoSpan = document.createElement('span');
-        tipoSpan.className = 'evento-tipo ' + tipoClasse;
-        tipoSpan.textContent = ev.tipo ? ev.tipo.toUpperCase() : '';
-
-        // Título do evento
-        const titulo = document.createElement('strong');
-        titulo.textContent = ev.title || ev.nome || '';
-
-        // Descrição
-        const desc = document.createElement('p');
-        desc.textContent = ev.descricao || '';
-
-        const dataP = document.createElement('p');
-        dataP.className = 'evento-data';
-        dataP.textContent = dataFormat;
-
-        div.appendChild(dataP);
-        div.appendChild(tipoSpan);
-        div.appendChild(document.createTextNode(' '));
-        div.appendChild(titulo);
-        if (desc.textContent) div.appendChild(desc);
-
-        listaEventos.appendChild(div);
-      });
-    }
-  });
-  </script>
-</body>
-</html>
+      // 2. FASES LUNARES 2025 (com horários)
+      const fasesLua = [
+        // Janeiro
+        { title: '🌑', start: anoAtual + '-01-06T20:56:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-01-06', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        { title: '🌓', start: anoAtual + '-01-13T19:26:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-01-21T17:30:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        
+        // Fevereiro
+        { title: '🌓', start: anoAtual + '-02-05T05:02:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-02-12T10:53:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-02-20T14:32:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        { title: '🌑', start: anoAtual + '-02-27T21:44:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-02-27', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        
+        // Março
+        { title: '🌓', start: anoAtual + '-03-06T13:31:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-03-14T03:54:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-03-22T08:29:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        { title: '🌑', start: anoAtual + '-03-29T07:57:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-03-29', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        
+        // Abril
+        { title: '🌓', start: anoAtual + '-04-04T23:14:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-04-12T21:22:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-04-20T22:35:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        { title: '🌑', start: anoAtual + '-04-27T16:31:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-04-27', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        
+        // Maio
+        { title: '🌓', start: anoAtual + '-05-03T00:40:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-05-11T04:43:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-05-18T16:19:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        { title: '🌑', start: anoAtual + '-05-27T00:02:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-05-27', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        
+        // Junho
+        { title: '🌑', start: anoAtual + '-06-25T07:31:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-06-25', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        { title: '🌓', start: anoAtual + '-07-02T16:30:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-07-10T17:36:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-07-17T21:37:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        
+        // Julho
+        { title: '🌑', start: anoAtual + '-07-24T16:11:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-07-24', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        { title: '🌓', start: anoAtual + '-08-01T09:41:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-08-09T04:55:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-08-16T02:12:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        
+        // Agosto
+        { title: '🌑', start: anoAtual + '-08-23T03:06:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-08-23', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        { title: '🌓', start: anoAtual + '-08-31T03:25:00', tipo: 'lunar', className: 'fc-event-lua lua-crescente', nome: 'Primeiro Quarto', descricao: 'Lua crescente' },
+        { title: '🌕', start: anoAtual + '-09-07T15:08:00', tipo: 'lunar', className: 'fc-event-lua lua-cheia', nome: 'Lua Cheia', descricao: 'Plenilúnio' },
+        { title: '🌗', start: anoAtual + '-09-14T07:32:00', tipo: 'lunar', className: 'fc-event-lua lua-minguante', nome: 'Último Quarto', descricao: 'Lua minguante' },
+        
+        // Setembro
+        { title: '🌑', start: anoAtual + '-09-21T16:54:00', tipo: 'lunar', className: 'fc-event-lua lua-nova', nome: 'Lua Nova', descricao: 'Início do ciclo lunar' },
+        { title: '⚫', start: anoAtual + '-09-21', tipo: 'deipnon', className: 'fc-event-lua lua-deipnon', nome: 'Deipnon', descricao: 'Dia sagrado de Hécate' },
+        { title: '🌓', start: anoA
