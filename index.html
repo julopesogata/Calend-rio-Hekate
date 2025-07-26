@@ -1,19 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Calendário Hekate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário Devocionário de Hekate</title>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lunarphase-js@1.0.1/dist/lunarphase.min.js"></script>
+  <style>
+    :root {
+      --roxo-escuro: #0d001a;
+      --roxo-medio: #1c0033;
+      --roxo-claro: #9933ff;
+      --lilás: #d6b3ff;
+    }
+    
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--roxo-escuro);
+      color: #f4e8ff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--roxo-medio);
+      border-bottom: 1px solid var(--roxo-claro);
+    }
+
+    #calendar {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+    }
+
+    /* Estilos dos eventos */
+    .fc-event {
+      border: none !important;
+      padding: 2px 4px !important;
+    }
+    .sabbat { background-color: #e74c3c; }
+    .lua-cheia { background-color: #3498db; }
+    .lua-nova { background-color: #2c3e50; }
+    .deipnon { background-color: #8e44ad; }
+    .hekate { background-color: #9b59b6; }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Calendário Devocionário de Hekate</h1>
+    <p>Roda do Ano - Hemisfério Sul</p>
+  </header>
+
   <div id="calendar"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      new FullCalendar.Calendar(document.getElementById('calendar'), {
+      const hoje = new Date();
+      const ano = hoje.getFullYear();
+
+      // 1. SABBATS (Roda do Sul)
+      const sabbats = [
+        { title: "Samhain 🎃", start: `${ano}-04-30`, className: 'sabbat' },
+        { title: "Yule ❄️", start: `${ano}-06-21`, className: 'sabbat' },
+        { title: "Imbolc 🕯️", start: `${ano}-08-01`, className: 'sabbat' },
+        { title: "Ostara 🌸", start: `${ano}-09-21`, className: 'sabbat' },
+        { title: "Beltane 🔥", start: `${ano}-10-31`, className: 'sabbat' },
+        { title: "Litha ☀️", start: `${ano}-12-21`, className: 'sabbat' },
+        { title: "Lughnasadh 🌾", start: `${ano}-02-02`, className: 'sabbat' },
+        { title: "Mabon 🍁", start: `${ano}-03-21`, className: 'sabbat' }
+      ];
+
+      // 2. Festivais de Hekate
+      const festivais = [
+        { title: "Noite da Deusa Negra", start: `${ano}-01-31`, className: 'hekate' },
+        { title: "Festival de Hekate", start: `${ano}-08-13`, className: 'hekate' },
+        { title: "Hekate Trivia", start: `${ano}-11-30`, className: 'hekate' }
+      ];
+
+      // 3. Calendário Principal
+      const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
-        events: [{ title: 'Teste OK', start: new Date() }]
-      }).render();
+        locale: 'pt-br',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+        },
+        events: [...sabbats, ...festivais],
+        eventContent: (arg) => ({
+          html: `<div style="padding: 2px;">${arg.event.title}</div>`
+        })
+      });
+
+      calendar.render();
     });
   </script>
 </body>
