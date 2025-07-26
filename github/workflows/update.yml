@@ -1,0 +1,28 @@
+name: Atualizar Calendário
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # Executa no primeiro dia de cada mês
+  workflow_dispatch:      # Permite acionar manualmente
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      
+      - name: Gerar HTML
+        run: python generate_calendar.py
+      
+      - name: Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
