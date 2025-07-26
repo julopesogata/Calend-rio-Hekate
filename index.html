@@ -11,6 +11,7 @@
       --roxo-medio: #1c0033;
       --roxo-claro: #9933ff;
       --lilás: #d6b3ff;
+      --sombra: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
     
     body {
@@ -22,6 +23,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.6;
     }
 
     header {
@@ -29,12 +31,14 @@
       padding: 1.5rem;
       background-color: var(--roxo-medio);
       border-bottom: 1px solid var(--roxo-claro);
+      box-shadow: var(--sombra);
     }
 
     h1 {
       margin: 0;
       color: var(--lilás);
       font-size: 2rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     header p {
@@ -43,19 +47,27 @@
       font-size: 1rem;
     }
 
-    #calendar {
+    .container {
       max-width: 900px;
-      margin: 2rem auto 0;
+      margin: 0 auto;
       padding: 0 1rem;
+      flex: 1;
+    }
+
+    #calendar {
+      margin: 2rem 0;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: var(--sombra);
     }
 
     #eventos-mes {
-      max-width: 900px;
-      margin: 1rem auto 2rem;
-      padding: 0 1rem;
       background-color: var(--roxo-medio);
       border-radius: 8px;
       padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--sombra);
     }
 
     #eventos-mes h2 {
@@ -69,6 +81,11 @@
       margin-bottom: 1rem;
       padding-bottom: 1rem;
       border-bottom: 1px dashed var(--roxo-claro);
+      transition: transform 0.3s ease;
+    }
+
+    .evento-item:hover {
+      transform: translateX(5px);
     }
 
     .evento-item:last-child {
@@ -80,6 +97,14 @@
     .evento-data {
       font-weight: bold;
       color: var(--lilás);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .evento-data::before {
+      content: "🌙";
+      font-size: 0.9em;
     }
 
     .evento-tipo {
@@ -88,6 +113,8 @@
       border-radius: 4px;
       font-size: 0.8rem;
       margin-right: 0.5rem;
+      font-weight: bold;
+      color: white;
     }
 
     .tipo-festival { background-color: #9b59b6; }
@@ -102,25 +129,66 @@
       padding: 0 !important;
       background: transparent !important;
       border: none !important;
+      cursor: default !important;
     }
+    
+    .fc-daygrid-day-number {
+      color: var(--lilás);
+    }
+    
+    .fc-col-header-cell-cushion {
+      color: var(--lilás);
+    }
+    
+    .fc-daygrid-day.fc-day-today {
+      background-color: rgba(157, 102, 255, 0.1) !important;
+    }
+
+    .fc-toolbar-title {
+      color: var(--lilás);
+    }
+    
+    .fc-button {
+      background-color: var(--roxo-claro) !important;
+      border: none !important;
+      color: white !important;
+    }
+    
+    .fc-button:hover {
+      background-color: var(--lilás) !important;
+      color: var(--roxo-escuro) !important;
+    }
+
     .nova { color: #2c3e50; }
     .cheia { color: #f1c40f; }
     .crescente { color: #27ae60; }
     .minguante { color: #e67e22; }
     
-    .evento-hekate { background-color: transparent !important; border: none !important; }
+    .evento-hekate { 
+      background-color: transparent !important; 
+      border: none !important;
+      cursor: default !important;
+    }
     .festival-icon { color: #9b59b6; }
     .sabbat-icon { color: #e74c3c; }
     .deipnon-icon { color: #2c3e50; }
     .noumenia-icon { color: #27ae60; }
 
     @media (max-width: 768px) {
-      #calendar, #eventos-mes {
+      .container {
         padding: 0 0.5rem;
       }
       
       h1 {
         font-size: 1.5rem;
+      }
+      
+      #calendar {
+        margin: 1rem 0;
+      }
+      
+      #eventos-mes {
+        padding: 1rem;
       }
     }
   </style>
@@ -131,11 +199,13 @@
     <p>@devocionariodehekate</p>
   </header>
 
-  <div id="calendar"></div>
-  
-  <div id="eventos-mes">
-    <h2>Eventos deste mês</h2>
-    <div id="eventos-lista"></div>
+  <div class="container">
+    <div id="calendar"></div>
+    
+    <div id="eventos-mes">
+      <h2>Eventos deste mês</h2>
+      <div id="eventos-lista"></div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
@@ -146,160 +216,166 @@
       // 1. EVENTOS FIXOS (Sabbats + Festivais + Deipnon/Noumenia)
       const eventosFixos = [
         // Festivais de Hekate
-        { title: "🌙", date: `${ano}-01-31`, className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Noite da Deusa Negra", descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." },
-        { title: "🌙", date: `${ano}-08-13`, className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Festival de Hekate", descricao: "Principal festival anual em homenagem à Deusa Hekate." },
-        { title: "🌙", date: `${ano}-11-30`, className: 'evento-hekate festival-icon', tipo: 'festival', nome: "Hekate Trivia", descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas." },
+        { 
+          title: "🌙", 
+          date: `${ano}-01-31`, 
+          className: 'evento-hekate festival-icon', 
+          tipo: 'festival', 
+          nome: "Noite da Deusa Negra", 
+          descricao: "Celebração da Deusa em seu aspecto sombrio e transformador. Momento ideal para trabalhos de transformação pessoal e conexão com o sagrado feminino." 
+        },
+        { 
+          title: "🌙", 
+          date: `${ano}-08-13`, 
+          className: 'evento-hekate festival-icon', 
+          tipo: 'festival', 
+          nome: "Festival de Hekate", 
+          descricao: "Principal festival anual em homenagem à Deusa Hekate. Celebração com oferendas, rituais e banquetes em sua homenagem." 
+        },
+        { 
+          title: "🌙", 
+          date: `${ano}-11-30`, 
+          className: 'evento-hekate festival-icon', 
+          tipo: 'festival', 
+          nome: "Hekate Trivia", 
+          descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas. Tradicionalmente realizado em encruzilhadas de três caminhos." 
+        },
         
         // Sabbats - Roda do Sul
-        { title: "🎃", date: `${ano}-04-30`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Samhain", descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino." },
-        { title: "❄️", date: `${ano}-06-21`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Yule", descricao: "Solstício de Inverno, celebração do renascimento do Sol." },
-        { title: "🕯️", date: `${ano}-08-01`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Imbolc", descricao: "Festival do fogo e da purificação, dedicado à Brigid." },
-        { title: "🌸", date: `${ano}-09-21`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Ostara", descricao: "Equinócio de Outono, celebração do equilíbrio e renovação." },
-        { title: "🔥", date: `${ano}-10-31`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Beltane", descricao: "Celebração da fertilidade e união entre o Deus e a Deusa." },
-        { title: "☀️", date: `${ano}-12-21`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Litha", descricao: "Solstício de Verão, ápice do poder do Sol." },
-        { title: "🌾", date: `${ano}-02-02`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Lughnasadh", descricao: "Festival da colheita e dos primeiros frutos." },
-        { title: "🍁", date: `${ano}-03-21`, className: 'evento-hekate sabbat-icon', tipo: 'sabbat', nome: "Mabon", descricao: "Equinócio de Outono, ação de graças pela colheita." }
+        { 
+          title: "🎃", 
+          date: `${ano}-04-30`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Samhain", 
+          descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino. Momento de honrar os ancestrais e praticar divinação." 
+        },
+        { 
+          title: "❄️", 
+          date: `${ano}-06-21`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Yule", 
+          descricao: "Solstício de Inverno, celebração do renascimento do Sol. Rituais de luz em meio à escuridão." 
+        },
+        { 
+          title: "🕯️", 
+          date: `${ano}-08-01`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Imbolc", 
+          descricao: "Festival do fogo e da purificação, dedicado à Brigid. Celebração da luz crescente e dos primeiros sinais da primavera." 
+        },
+        { 
+          title: "🌸", 
+          date: `${ano}-09-21`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Ostara", 
+          descricao: "Equinócio de Outono, celebração do equilíbrio e renovação. Tempo de plantar sementes literais e figurativas." 
+        },
+        { 
+          title: "🔥", 
+          date: `${ano}-10-31`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Beltane", 
+          descricao: "Celebração da fertilidade e união entre o Deus e a Deusa. Fogueiras e danças tradicionais marcam esta data." 
+        },
+        { 
+          title: "☀️", 
+          date: `${ano}-12-21`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Litha", 
+          descricao: "Solstício de Verão, ápice do poder do Sol. Celebração da abundância e colheitas." 
+        },
+        { 
+          title: "🌾", 
+          date: `${ano}-02-02`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Lughnasadh", 
+          descricao: "Festival da colheita e dos primeiros frutos. Agradecimento pela abundância e preparação para o outono." 
+        },
+        { 
+          title: "🍁", 
+          date: `${ano}-03-21`, 
+          className: 'evento-hekate sabbat-icon', 
+          tipo: 'sabbat', 
+          nome: "Mabon", 
+          descricao: "Equinócio de Outono, ação de graças pela colheita. Momento de equilíbrio entre luz e escuridão." 
+        }
       ];
 
       // 2. FASES DA LUA 2025 (com Deipnon e Noumenia)
       const fasesLua2025 = [
         // Janeiro
-        { fase: "Nova", data: "2025-01-11", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-01-28", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-01-18", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-01-04", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-01-10", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-01-12", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-01-11", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-01-28", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-01-18", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-01-04", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-01-10", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-01-12", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Fevereiro
-        { fase: "Nova", data: "2025-02-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-02-27", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-02-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-02-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-02-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-02-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-02-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-02-27", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-02-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-02-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-02-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-02-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Março
-        { fase: "Nova", data: "2025-03-11", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-03-28", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-03-19", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-03-05", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-03-10", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-03-12", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-03-11", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-03-28", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-03-19", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-03-05", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-03-10", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-03-12", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Abril
-        { fase: "Nova", data: "2025-04-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-04-27", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-04-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-04-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-04-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-04-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-04-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-04-27", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-04-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-04-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-04-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-04-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Maio
-        { fase: "Nova", data: "2025-05-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-05-26", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-05-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-05-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-05-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-05-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-05-09", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-05-26", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-05-17", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-05-03", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-05-08", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-05-10", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Junho
-        { fase: "Nova", data: "2025-06-07", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-06-25", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-06-15", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-06-01", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-06-06", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-06-08", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-06-07", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-06-25", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-06-15", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-06-01", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-06-06", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-06-08", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Julho
-        { fase: "Nova", data: "2025-07-07", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-07-24", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-07-15", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-07-01", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-07-06", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-07-08", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-07-07", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-07-24", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-07-15", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-07-01", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-07-06", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-07-08", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Agosto
-        { fase: "Nova", data: "2025-08-05", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-08-23", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-08-13", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-08-30", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-08-04", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-08-06", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
+        { fase: "Nova", data: "2025-08-05", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-08-23", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-08-13", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-08-30", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio. Período para liberar o que não serve mais." },
+        { fase: "Deipnon", data: "2025-08-04", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate. Tradicionalmente, deixam-se oferendas nas encruzilhadas." },
+        { fase: "Noumenia", data: "2025-08-06", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos. Momento de orações e oferendas para um bom mês." },
         
         // Setembro
-        { fase: "Nova", data: "2025-09-04", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-09-21", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-09-12", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-09-28", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-09-03", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-09-05", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
-        
-        // Outubro
-        { fase: "Nova", data: "2025-10-03", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-10-21", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-10-11", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-10-28", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-10-02", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-10-04", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
-        
-        // Novembro
-        { fase: "Nova", data: "2025-11-02", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-11-19", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-11-10", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-11-26", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-11-01", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-11-03", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." },
-        
-        // Dezembro
-        { fase: "Nova", data: "2025-12-01", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
-        { fase: "Cheia", data: "2025-12-19", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
-        { fase: "Quarto Crescente", data: "2025-12-09", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
-        { fase: "Quarto Minguante", data: "2025-12-26", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
-        { fase: "Deipnon", data: "2025-11-30", icone: "⚫", className: 'deipnon-icon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
-        { fase: "Noumenia", data: "2025-12-02", icone: "🌘", className: 'noumenia-icon', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar, dedicado aos deuses olímpicos." }
-      ];
-
-      // 3. CONFIGURAÇÃO DO CALENDÁRIO
-      const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-        initialView: 'dayGridMonth',
-        locale: 'pt-br',
-        headerToolbar: {
-          left: 'prev,next',
-          center: 'title',
-          right: 'today'
-        },
-        buttonText: {
-          today: 'Hoje'
-        },
-        events: [...eventosFixos, ...fasesLua2025],
-        eventContent: (arg) => ({
-          html: `<div class="${arg.event.classNames.includes('fc-event-lua') ? 'lua-icon' : ''}">${arg.event.title}</div>`
-        }),
-        eventDidMount: (info) => {
-          if (info.event.classNames.includes('fc-event-lua')) {
-            info.el.style.backgroundColor = 'transparent';
-            info.el.style.boxShadow = 'none';
-          }
-        },
-        datesSet: (info) => {
-          atualizarEventosMes(info.start, info.end);
-        }
-      });
-
-      calendar.render();
-      
-      // 4. FUNÇÃO PARA ATUALIZAR OS EVENTOS DO MÊS
-      function atualizarEventosMes(start, end) {
-        const todosEventos = [...eventosFixos, ...fasesLua2025];
-        const eventosDoMes = todosEventos.filter(evento => {
-          const dataEvento = new Date(evento.date);
-          return dataEvento >= start && dataEvento <= end;
-        });
-        
-        // Ordenar eventos por data
-        eventosDoMes.sort((a, b) => new Date(a.date) - new Date(b.date));
-        
-        // Exibir eventos
-        const listaEventos = document.getElementById('eventos-lista');
-        listaEventos.innerHT
+        { fase: "Nova", data: "2025-09-04", icone: "🌑", className: 'nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar. Momento de introspecção e novos começos." },
+        { fase: "Cheia", data: "2025-09-21", icone: "🌕", className: 'cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar. Período de realização e manifestação." },
+        { fase: "Quarto Crescente", data: "2025-09-12", icone: "🌓", className: 'crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento. Tempo para ações que constroem e desenvolvem." },
+        { fase: "Quarto Minguante", data: "2025-09-28", icone: "🌗", className: 'minguante', tipo: 'lunar', nome: "Quarto 
