@@ -57,6 +57,12 @@
       padding: 1rem;
     }
 
+    /* CORREÇÃO: Mantém tamanho padrão dos números mesmo em dias com eventos */
+    .fc-daygrid-day.fc-day-has-event .fc-daygrid-day-number {
+      font-size: inherit;
+      font-weight: normal;
+    }
+
     #eventos-mes {
       max-width: 900px;
       margin: 1rem auto 2rem;
@@ -106,9 +112,6 @@
     .lua-noumenia { color: #27ae60; }
 
     /* Estilos para o calendário */
-    .fc-daygrid-day-number {
-      color: var(--lilás);
-    }
     .fc-col-header-cell-cushion {
       color: var(--lilás);
       text-transform: capitalize;
@@ -116,6 +119,24 @@
     .fc-toolbar-title {
       color: var(--lilás);
       text-transform: capitalize;
+    }
+
+    @media (max-width: 768px) {
+      #calendar-container {
+        padding: 0 0.5rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      #calendar {
+        margin: 1rem 0;
+      }
+      
+      #eventos-mes {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -141,7 +162,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       const anoAtual = new Date().getFullYear();
 
-      // 1. EVENTOS FIXOS
+      // 1. EVENTOS FIXOS (Sabbats e Festivais)
       const eventosFixos = [
         // Festivais de Hekate
         { 
@@ -225,67 +246,319 @@
         }
       ];
 
-      // 2. FASES LUNARES (exemplo para vários meses)
+      // 2. FASES LUNARES 2025 (com horários)
       const fasesLua = [
   // Janeiro
-  { title: "🌒", start: '2025-01-06T20:56:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-01-13T19:26:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-01-29T09:35:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-01-06T20:56:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-01-13T19:26:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-01-29T09:35:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Fevereiro
-  { title: "🌒", start: '2025-02-05T05:02:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-02-12T10:53:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-02-27T21:44:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-02-05T05:02:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-02-12T10:53:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-02-27T21:44:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Março
-  { title: "🌒", start: '2025-03-06T13:31:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-03-14T03:54:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-03-29T07:57:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-03-06T13:31:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-03-14T03:54:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-03-29T07:57:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Abril
-  { title: "🌒", start: '2025-04-04T23:14:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-04-12T21:22:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-04-27T16:31:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-04-04T23:14:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-04-12T21:22:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-04-27T16:31:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Maio
-  { title: "🌒", start: '2025-05-04T10:51:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-05-12T13:55:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-05-27T00:02:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-05-04T10:51:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-05-12T13:55:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-05-27T00:02:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Junho
-  { title: "🌒", start: '2025-06-03T00:40:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-06-11T04:43:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-06-25T07:31:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-06-03T00:40:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-06-11T04:43:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-06-25T07:31:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Julho
-  { title: "🌒", start: '2025-07-02T16:30:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-07-10T17:36:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-07-24T16:11:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-07-02T16:30:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-07-10T17:36:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-07-24T16:11:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Agosto
-  { title: "🌒", start: '2025-08-01T09:41:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-08-09T04:55:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-08-23T03:06:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
+  { 
+    title: "🌒", 
+    start: '2025-08-01T09:41:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-08-09T04:55:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-08-23T03:06:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
   
   // Setembro
-  { title: "🌒", start: '2025-09-01T03:25:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
-  { title: "🌕", start: '2025-09-07T15:08:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-09-21T16:54:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
-  { title: "🌒", start: '2025-09-29T20:53:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { 
+    title: "🌒", 
+    start: '2025-09-01T03:25:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
+  { 
+    title: "🌕", 
+    start: '2025-09-07T15:08:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-09-21T16:54:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
+  { 
+    title: "🌒", 
+    start: '2025-09-29T20:53:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
   
   // Outubro
-  { title: "🌕", start: '2025-10-07T00:47:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-10-21T09:25:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
-  { title: "🌒", start: '2025-10-29T13:20:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { 
+    title: "🌕", 
+    start: '2025-10-07T00:47:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-10-21T09:25:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
+  { 
+    title: "🌒", 
+    start: '2025-10-29T13:20:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
   
   // Novembro
-  { title: "🌕", start: '2025-11-05T10:19:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-11-20T03:47:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." },
-  { title: "🌒", start: '2025-11-28T03:58:00', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Lua Crescente", descricao: "Fase crescente da Lua." },
+  { 
+    title: "🌕", 
+    start: '2025-11-05T10:19:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-11-20T03:47:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  },
+  { 
+    title: "🌒", 
+    start: '2025-11-28T03:58:00', 
+    className: 'fc-event-lua lua-crescente', 
+    tipo: 'lunar', 
+    nome: "Lua Crescente", 
+    descricao: "Fase crescente da Lua." 
+  },
   
   // Dezembro
-  { title: "🌕", start: '2025-12-04T20:14:00', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Lua Cheia - Clímax do poder lunar." },
-  { title: "🌑", start: '2025-12-19T22:43:00', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Lua Nova - Início do novo ciclo lunar." }
+  { 
+    title: "🌕", 
+    start: '2025-12-04T20:14:00', 
+    className: 'fc-event-lua lua-cheia', 
+    tipo: 'lunar', 
+    nome: "Lua Cheia", 
+    descricao: "Lua Cheia - Clímax do poder lunar." 
+  },
+  { 
+    title: "🌑", 
+    start: '2025-12-19T22:43:00', 
+    className: 'fc-event-lua lua-nova', 
+    tipo: 'lunar', 
+    nome: "Lua Nova", 
+    descricao: "Lua Nova - Início do novo ciclo lunar." 
+  }
 ];
 
       // 3. INICIALIZAÇÃO DO CALENDÁRIO
@@ -310,7 +583,7 @@
           } else if (tipo === 'sabbat') {
             info.el.style.color = '#e74c3c';
             info.el.style.fontWeight = 'bold';
-          } else if (tipo === 'lunar' || tipo === 'deipnon' || tipo === 'noumenia') {
+          } else if (tipo === 'lunar') {
             info.el.style.backgroundColor = 'transparent';
             info.el.style.boxShadow = 'none';
             info.el.style.cursor = 'default';
@@ -323,7 +596,7 @@
 
       calendar.render();
       
-      // 4. ATUALIZAR EVENTOS DO MÊS
+      // 4. ATUALIZAR EVENTOS DO MÊS (COM HORÁRIOS)
       function atualizarEventosMes(start, end) {
         const todosEventos = [...eventosFixos, ...fasesLua];
         const eventosDoMes = todosEventos.filter(evento => {
@@ -349,6 +622,15 @@
             month: 'long',
             year: 'numeric'
           });
+          
+          // Formatar hora quando existir
+          let horaFormatada = '';
+          if (evento.start.includes('T')) {
+            horaFormatada = ' - ' + dataEvento.toLocaleTimeString('pt-BR', {
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+          }
           
           // Capitalizar primeira letra do mês
           const dataFormatadaCapitalizada = dataFormatada.replace(/^\w/, c => c.toUpperCase());
@@ -383,7 +665,7 @@
           }
           
           eventoDiv.innerHTML = `
-            <div class="evento-data">${dataFormatadaCapitalizada}</div>
+            <div class="evento-data">${dataFormatadaCapitalizada}${horaFormatada}</div>
             <div>
               <span class="evento-tipo ${tipoClass}">${tipoTexto}</span>
               <strong>${evento.nome || evento.title}</strong>
