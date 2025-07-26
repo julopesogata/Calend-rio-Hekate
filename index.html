@@ -51,31 +51,42 @@
       flex-grow: 1;
     }
 
-    /* Estilos dos eventos (prioridade visual) */
-    .sabbat { 
+    /* Hierarquia visual dos eventos */
+    .evento-hekate {
+      background-color: #9b59b6 !important;
+      border: none !important;
+      color: white !important;
+      z-index: 3 !important;
+    }
+    .sabbat {
       background-color: #e74c3c !important;
       border: none !important;
       color: white !important;
+      z-index: 2 !important;
     }
-    .hekate { 
-      background-color: #9b59b6 !important;
-      border: none !important;
-    }
-    .lua-cheia { 
+    .lua-cheia {
       background-color: #3498db !important;
       border: none !important;
+      color: white !important;
+      z-index: 1 !important;
     }
-    .lua-nova { 
+    .lua-nova {
       background-color: #2c3e50 !important;
       border: none !important;
+      color: white !important;
+      z-index: 1 !important;
     }
-    .deipnon { 
+    .deipnon {
       background-color: #8e44ad !important;
       border: none !important;
+      color: white !important;
+      z-index: 1 !important;
     }
     .quartos {
       background-color: #27ae60 !important;
       border: none !important;
+      color: white !important;
+      z-index: 1 !important;
     }
 
     /* Layout otimizado */
@@ -86,6 +97,10 @@
     }
     .fc-daygrid-event {
       white-space: normal !important;
+    }
+    .fc-event-main {
+      display: flex;
+      align-items: center;
     }
   </style>
 </head>
@@ -105,87 +120,141 @@
 
       // 1. EVENTOS FIXOS (Sabbats + Festivais)
       const eventosFixos = [
-        // Sabbats - Roda do Sul
-        { title: "Samhain 🎃", start: `${ano}-04-30`, className: 'sabbat' },
-        { title: "Yule ❄️", start: `${ano}-06-21`, className: 'sabbat' },
-        { title: "Imbolc 🕯️", start: `${ano}-08-01`, className: 'sabbat' },
-        { title: "Ostara 🌸", start: `${ano}-09-21`, className: 'sabbat' },
-        { title: "Beltane 🔥", start: `${ano}-10-31`, className: 'sabbat' },
-        { title: "Litha ☀️", start: `${ano}-12-21`, className: 'sabbat' },
-        { title: "Lughnasadh 🌾", start: `${ano}-02-02`, className: 'sabbat' },
-        { title: "Mabon 🍁", start: `${ano}-03-21`, className: 'sabbat' },
+        // Festivais de Hekate (prioridade máxima)
+        { 
+          title: "Noite da Deusa Negra", 
+          start: `${ano}-01-31`, 
+          className: 'evento-hekate',
+          display: 'auto'
+        },
+        { 
+          title: "Festival de Hekate", 
+          start: `${ano}-08-13`, 
+          className: 'evento-hekate',
+          display: 'auto'
+        },
+        { 
+          title: "Hekate Trivia", 
+          start: `${ano}-11-30`, 
+          className: 'evento-hekate',
+          display: 'auto'
+        },
         
-        // Festivais de Hekate
-        { title: "Noite da Deusa Negra", start: `${ano}-01-31`, className: 'hekate' },
-        { title: "Festival de Hekate", start: `${ano}-08-13`, className: 'hekate' },
-        { title: "Hekate Trivia", start: `${ano}-11-30`, className: 'hekate' }
+        // Sabbats - Roda do Sul
+        { 
+          title: "Samhain 🎃", 
+          start: `${ano}-04-30`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Yule ❄️", 
+          start: `${ano}-06-21`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Imbolc 🕯️", 
+          start: `${ano}-08-01`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Ostara 🌸", 
+          start: `${ano}-09-21`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Beltane 🔥", 
+          start: `${ano}-10-31`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Litha ☀️", 
+          start: `${ano}-12-21`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Lughnasadh 🌾", 
+          start: `${ano}-02-02`, 
+          className: 'sabbat',
+          display: 'auto'
+        },
+        { 
+          title: "Mabon 🍁", 
+          start: `${ano}-03-21`, 
+          className: 'sabbat',
+          display: 'auto'
+        }
       ];
 
-      // 2. CÁLCULO DAS FASES LUNARES (otimizado)
+      // 2. CÁLCULO DAS FASES LUNARES (apenas para o mês atual)
       function gerarFasesLunares() {
         const eventos = [];
         const mesAtual = hoje.getMonth();
+        const diasNoMes = new Date(ano, mesAtual + 1, 0).getDate();
         
-        // Calcula apenas para o mês atual + próximo mês (performance)
-        for (let m = 0; m < 2; m++) {
-          const mes = (mesAtual + m) % 12;
-          const diasNoMes = new Date(ano, mes + 1, 0).getDate();
-          
-          for (let dia = 1; dia <= diasNoMes; dia++) {
-            const data = new Date(ano, mes, dia);
-            const { phase, fraction } = LunarPhase.getMoonIllumination(data);
-            const dateStr = data.toISOString().split('T')[0];
+        for (let dia = 1; dia <= diasNoMes; dia++) {
+          const data = new Date(ano, mesAtual, dia);
+          const { phase, fraction } = LunarPhase.getMoonIllumination(data);
+          const dateStr = data.toISOString().split('T')[0];
 
-            // Deipnon (véspera da Lua Nova)
-            if (fraction < 0.01) {
-              const deipnonDate = new Date(data);
-              deipnonDate.setDate(deipnonDate.getDate() - 1);
-              eventos.push({
-                title: "🌒 Deipnon",
-                start: deipnonDate.toISOString().split('T')[0],
-                className: 'deipnon',
-                display: 'background'
-              });
-            }
+          // Deipnon (véspera da Lua Nova)
+          if (fraction < 0.01) {
+            const deipnonDate = new Date(data);
+            deipnonDate.setDate(deipnonDate.getDate() - 1);
+            eventos.push({
+              title: "🌒 Deipnon",
+              start: deipnonDate.toISOString().split('T')[0],
+              className: 'deipnon',
+              display: 'background'
+            });
+          }
 
-            // Lua Nova (Noumenia)
-            if (phase === 0) {
-              eventos.push({
-                title: "🌑 Noumenia",
-                start: dateStr,
-                className: 'lua-nova'
-              });
-            }
-            // Lua Cheia
-            else if (phase === 0.5) {
-              eventos.push({
-                title: "🌕 Lua Cheia",
-                start: dateStr,
-                className: 'lua-cheia'
-              });
-            }
-            // Quarto Crescente
-            else if (Math.abs(phase - 0.25) < 0.03) {
-              eventos.push({
-                title: "🌓 Quarto Crescente",
-                start: dateStr,
-                className: 'quartos'
-              });
-            }
-            // Quarto Minguante
-            else if (Math.abs(phase - 0.75) < 0.03) {
-              eventos.push({
-                title: "🌗 Quarto Minguante",
-                start: dateStr,
-                className: 'quartos'
-              });
-            }
+          // Lua Nova (Noumenia)
+          if (phase === 0) {
+            eventos.push({
+              title: "🌑 Noumenia",
+              start: dateStr,
+              className: 'lua-nova',
+              display: 'background'
+            });
+          }
+          // Lua Cheia
+          else if (phase === 0.5) {
+            eventos.push({
+              title: "🌕 Lua Cheia",
+              start: dateStr,
+              className: 'lua-cheia',
+              display: 'background'
+            });
+          }
+          // Quarto Crescente
+          else if (Math.abs(phase - 0.25) < 0.03) {
+            eventos.push({
+              title: "🌓 Quarto Crescente",
+              start: dateStr,
+              className: 'quartos',
+              display: 'background'
+            });
+          }
+          // Quarto Minguante
+          else if (Math.abs(phase - 0.75) < 0.03) {
+            eventos.push({
+              title: "🌗 Quarto Minguante",
+              start: dateStr,
+              className: 'quartos',
+              display: 'background'
+            });
           }
         }
         return eventos;
       }
 
-      // 3. CONFIGURAÇÃO DO CALENDÁRIO
+      // 3. CONFIGURAÇÃO FINAL DO CALENDÁRIO
       const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
         locale: 'pt-br',
@@ -199,14 +268,13 @@
         },
         fixedWeekCount: false,
         events: [...eventosFixos, ...gerarFasesLunares()],
-        eventOrder: (a, b) => {
-          // Prioridade de exibição
-          const order = ['hekate', 'sabbat', 'lua-cheia', 'lua-nova', 'quartos', 'deipnon'];
-          return order.indexOf(a.className) - order.indexOf(b.className);
-        },
-        eventContent: (arg) => ({
-          html: `<div style="padding: 2px;">${arg.event.title}</div>`
-        })
+        eventOrder: ['evento-hekate', 'sabbat', 'lua-cheia', 'lua-nova', 'quartos', 'deipnon'],
+        eventDidMount: (info) => {
+          // Garante que eventos importantes ficam sempre visíveis
+          if (info.event.extendedProps.display === 'auto') {
+            info.el.style.zIndex = '10';
+          }
+        }
       });
 
       calendar.render();
