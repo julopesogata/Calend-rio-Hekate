@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendário Devocionário de Hekate</title>
+  <title>Calendário Devocionário de Hekate 🌙</title>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/lunarphase-js@1.0.1/dist/lunarphase.min.js"></script>
   <style>
@@ -21,6 +21,8 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
@@ -30,30 +32,73 @@
       border-bottom: 1px solid var(--roxo-claro);
     }
 
+    h1 {
+      margin: 0;
+      color: var(--lilás);
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      color: var(--lilás);
+      font-size: 1rem;
+    }
+
     #calendar {
       max-width: 900px;
       margin: 2rem auto;
-      padding: 1rem;
-      background-color: var(--roxo-medio);
-      border-radius: 8px;
+      padding: 0 1rem;
+      flex-grow: 1;
     }
 
-    /* Estilos dos eventos */
-    .fc-event {
+    /* Cores dos eventos */
+    .sabbat { 
+      background-color: #e74c3c;
       border: none !important;
-      padding: 2px 4px !important;
     }
-    .sabbat { background-color: #e74c3c; }
-    .lua-cheia { background-color: #3498db; }
-    .lua-nova { background-color: #2c3e50; }
-    .deipnon { background-color: #8e44ad; }
-    .hekate { background-color: #9b59b6; }
+    .lua-cheia { 
+      background-color: #3498db;
+      border: none !important;
+    }
+    .lua-nova { 
+      background-color: #2c3e50;
+      border: none !important;
+    }
+    .quartos { 
+      background-color: #27ae60;
+      border: none !important;
+    }
+    .deipnon { 
+      background-color: #8e44ad;
+      border: none !important;
+    }
+    .hekate { 
+      background-color: #9b59b6;
+      border: none !important;
+    }
+
+    /* Remover scroll */
+    .fc-scroller {
+      overflow: hidden !important;
+      height: auto !important;
+    }
+
+    /* Mês em português com maiúscula */
+    .fc-toolbar-title {
+      text-transform: capitalize;
+      font-size: 1.5rem;
+    }
+
+    /* Dias da semana em português */
+    .fc-col-header-cell-cushion {
+      text-transform: capitalize;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Calendário Devocionário de Hekate</h1>
-    <p>Roda do Ano - Hemisfério Sul</p>
+    <h1>Calendário Devocionário de Hekate 🌙</h1>
+    <p>@devocionariodehekate</p>
   </header>
 
   <div id="calendar"></div>
@@ -83,16 +128,82 @@
         { title: "Hekate Trivia", start: `${ano}-11-30`, className: 'hekate' }
       ];
 
-      // 3. Calendário Principal
+      // 3. Fases da Lua
+      function getFasesLunares() {
+        const eventos = [];
+        const meses = 12;
+        
+        for (let mes = 0; mes < meses; mes++) {
+          const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+          
+          for (let dia = 1; dia <= diasNoMes; dia++) {
+            const data = new Date(ano, mes, dia);
+            const { phase, fraction } = LunarPhase.getMoonIllumination(data);
+            const dateStr = data.toISOString().split('T')[0];
+
+            // Deipnon (dia antes da Lua Nova)
+            if (fraction < 0.01) {
+              const deipnonDate = new Date(data);
+              deipnonDate.setDate(deipnonDate.getDate() - 1);
+              eventos.push({
+                title: "🌒 Deipnon",
+                start: deipnonDate.toISOString().split('T')[0],
+                className: 'deipnon'
+              });
+            }
+
+            // Lua Nova (Noumenia)
+            if (phase === 0) {
+              eventos.push({
+                title: "🌑 Noumenia",
+                start: dateStr,
+                className: 'lua-nova'
+              });
+            }
+            // Lua Cheia
+            else if (phase === 0.5) {
+              eventos.push({
+                title: "🌕 Lua Cheia",
+                start: dateStr,
+                className: 'lua-cheia'
+              });
+            }
+            // Quarto Crescente
+            else if (Math.abs(phase - 0.25) < 0.03) {
+              eventos.push({
+                title: "🌓 Quarto Crescente",
+                start: dateStr,
+                className: 'quartos'
+              });
+            }
+            // Quarto Minguante
+            else if (Math.abs(phase - 0.75) < 0.03) {
+              eventos.push({
+                title: "🌗 Quarto Minguante",
+                start: dateStr,
+                className: 'quartos'
+              });
+            }
+          }
+        }
+        return eventos;
+      }
+
+      // 4. Configuração do Calendário
       const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
         locale: 'pt-br',
         headerToolbar: {
-          left: 'prev,next today',
+          left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek'
+          right: 'today'
         },
-        events: [...sabbats, ...festivais],
+        buttonText: {
+          today: 'Hoje'
+        },
+        fixedWeekCount: false,
+        height: 'auto',
+        events: [...sabbats, ...festivais, ...getFasesLunares()],
         eventContent: (arg) => ({
           html: `<div style="padding: 2px;">${arg.event.title}</div>`
         })
