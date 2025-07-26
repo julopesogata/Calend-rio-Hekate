@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendário Devocionário de Hekate 🌙</title>
-  <!-- CSS do FullCalendar corrigido -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
   <style>
     :root {
@@ -52,7 +51,10 @@
     }
 
     #calendar {
-      height: 600px; /* Altura fixa para o calendário */
+      height: 600px;
+      background-color: var(--roxo-medio);
+      border-radius: 8px;
+      padding: 1rem;
     }
 
     #eventos-mes {
@@ -74,14 +76,34 @@
       color: var(--lilás);
     }
 
+    .evento-tipo {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      color: white;
+    }
+
     .tipo-festival { background-color: #9b59b6; }
     .tipo-sabbat { background-color: #e74c3c; }
-    
-    /* Estilos para os eventos no calendário */
-    .fc-event {
+    .tipo-lunar { background-color: #3498db; }
+    .tipo-deipnon { background-color: #2c3e50; }
+    .tipo-noumenia { background-color: #27ae60; }
+
+    /* Estilos para ícones lunares */
+    .fc-event-lua {
+      background: transparent !important;
       border: none !important;
-      background-color: transparent !important;
+      font-size: 1.5em;
+      padding: 0 !important;
     }
+    .lua-nova { color: #2c3e50; }
+    .lua-cheia { color: #f1c40f; }
+    .lua-crescente { color: #27ae60; }
+    .lua-minguante { color: #e67e22; }
+    .lua-deipnon { color: #2c3e50; }
+    .lua-noumenia { color: #27ae60; }
   </style>
 </head>
 <body>
@@ -99,35 +121,109 @@
     <div id="eventos-lista"></div>
   </div>
 
-  <!-- Scripts corrigidos -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
   
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const anoAtual = new Date().getFullYear(); // Ano dinâmico
+      const anoAtual = new Date().getFullYear();
 
       // 1. EVENTOS FIXOS
       const eventosFixos = [
         // Festivais de Hekate
         { 
-          title: "🌙 Noite da Deusa Negra", 
+          title: "Noite da Deusa Negra", 
           start: anoAtual + '-01-31', 
           className: 'evento-hekate',
           tipo: 'festival',
           descricao: "Celebração da Deusa em seu aspecto sombrio e transformador." 
         },
         { 
-          title: "🌙 Festival de Hekate", 
+          title: "Festival de Hekate", 
           start: anoAtual + '-08-13', 
           className: 'evento-hekate',
           tipo: 'festival',
           descricao: "Principal festival anual em homenagem à Deusa Hekate." 
         },
-        // ... outros eventos ...
+        { 
+          title: "Hekate Trivia", 
+          start: anoAtual + '-11-30', 
+          className: 'evento-hekate',
+          tipo: 'festival',
+          descricao: "Celebração de Hekate como guardiã dos caminhos e encruzilhadas." 
+        },
+        
+        // Sabbats - Roda do Sul
+        { 
+          title: "Samhain", 
+          start: anoAtual + '-04-30', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Ano Novo pagão, quando o véu entre os mundos está mais fino." 
+        },
+        { 
+          title: "Yule", 
+          start: anoAtual + '-06-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Solstício de Inverno, celebração do renascimento do Sol." 
+        },
+        { 
+          title: "Imbolc", 
+          start: anoAtual + '-08-01', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Festival do fogo e da purificação, dedicado à Brigid." 
+        },
+        { 
+          title: "Ostara", 
+          start: anoAtual + '-09-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Equinócio de Outono, celebração do equilíbrio e renovação." 
+        },
+        { 
+          title: "Beltane", 
+          start: anoAtual + '-10-31', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Celebração da fertilidade e união entre o Deus e a Deusa." 
+        },
+        { 
+          title: "Litha", 
+          start: anoAtual + '-12-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Solstício de Verão, ápice do poder do Sol." 
+        },
+        { 
+          title: "Lughnasadh", 
+          start: anoAtual + '-02-02', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Festival da colheita e dos primeiros frutos." 
+        },
+        { 
+          title: "Mabon", 
+          start: anoAtual + '-03-21', 
+          className: 'evento-hekate',
+          tipo: 'sabbat',
+          descricao: "Equinócio de Outono, ação de graças pela colheita." 
+        }
       ];
 
-      // 2. INICIALIZAÇÃO DO CALENDÁRIO
+      // 2. FASES LUNARES (exemplo para Janeiro 2025)
+      const fasesLua = [
+        { title: "🌑", start: anoAtual + '-01-11', className: 'fc-event-lua lua-nova', tipo: 'lunar', nome: "Lua Nova", descricao: "Início do ciclo lunar." },
+        { title: "🌕", start: anoAtual + '-01-28', className: 'fc-event-lua lua-cheia', tipo: 'lunar', nome: "Lua Cheia", descricao: "Clímax do poder lunar." },
+        { title: "🌓", start: anoAtual + '-01-18', className: 'fc-event-lua lua-crescente', tipo: 'lunar', nome: "Quarto Crescente", descricao: "Lua em crescimento." },
+        { title: "🌗", start: anoAtual + '-01-04', className: 'fc-event-lua lua-minguante', tipo: 'lunar', nome: "Quarto Minguante", descricao: "Lua em declínio." },
+        { title: "⚫", start: anoAtual + '-01-10', className: 'fc-event-lua lua-deipnon', tipo: 'deipnon', nome: "Deipnon", descricao: "Noite sagrada antes da Lua Nova, dedicada a Hekate." },
+        { title: "🌘", start: anoAtual + '-01-12', className: 'fc-event-lua lua-noumenia', tipo: 'noumenia', nome: "Noumenia", descricao: "Primeiro dia do novo mês lunar." }
+        // Adicione as fases para os outros meses seguindo o mesmo padrão
+      ];
+
+      // 3. INICIALIZAÇÃO DO CALENDÁRIO
       const calendarEl = document.getElementById('calendar');
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -137,13 +233,16 @@
           center: 'title',
           right: 'today'
         },
-        events: eventosFixos,
+        events: [...eventosFixos, ...fasesLua],
+        eventDisplay: 'block',
         eventDidMount: function(info) {
           // Estilização dos eventos
           if (info.event.extendedProps.tipo === 'festival') {
             info.el.style.color = '#9b59b6';
+            info.el.style.fontWeight = 'bold';
           } else if (info.event.extendedProps.tipo === 'sabbat') {
             info.el.style.color = '#e74c3c';
+            info.el.style.fontWeight = 'bold';
           }
         },
         datesSet: function(info) {
@@ -153,27 +252,69 @@
 
       calendar.render();
       
-      // 3. ATUALIZAR EVENTOS DO MÊS
+      // 4. ATUALIZAR EVENTOS DO MÊS
       function atualizarEventosMes(start, end) {
-        const eventosDoMes = eventosFixos.filter(evento => {
+        const todosEventos = [...eventosFixos, ...fasesLua];
+        const eventosDoMes = todosEventos.filter(evento => {
           const dataEvento = new Date(evento.start);
           return dataEvento >= start && dataEvento <= end;
         });
         
+        // Ordenar por data
+        eventosDoMes.sort((a, b) => new Date(a.start) - new Date(b.start));
+        
         const listaEventos = document.getElementById('eventos-lista');
         listaEventos.innerHTML = '';
         
+        if (eventosDoMes.length === 0) {
+          listaEventos.innerHTML = '<p>Nenhum evento importante este mês.</p>';
+          return;
+        }
+        
         eventosDoMes.forEach(evento => {
-          const dataFormatada = new Date(evento.start).toLocaleDateString('pt-BR');
+          const dataEvento = new Date(evento.start);
+          const dataFormatada = dataEvento.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+          });
+          
           const eventoDiv = document.createElement('div');
           eventoDiv.className = 'evento-item';
+          
+          let tipoClass = '';
+          let tipoTexto = '';
+          
+          switch(evento.extendedProps.tipo) {
+            case 'festival':
+              tipoClass = 'tipo-festival';
+              tipoTexto = 'Festival';
+              break;
+            case 'sabbat':
+              tipoClass = 'tipo-sabbat';
+              tipoTexto = 'Sabbat';
+              break;
+            case 'lunar':
+              tipoClass = 'tipo-lunar';
+              tipoTexto = 'Fase Lunar';
+              break;
+            case 'deipnon':
+              tipoClass = 'tipo-deipnon';
+              tipoTexto = 'Deipnon';
+              break;
+            case 'noumenia':
+              tipoClass = 'tipo-noumenia';
+              tipoTexto = 'Noumenia';
+              break;
+          }
+          
           eventoDiv.innerHTML = `
             <div class="evento-data">${dataFormatada}</div>
             <div>
-              <span class="evento-tipo tipo-${evento.tipo}">${evento.tipo.toUpperCase()}</span>
-              <strong>${evento.title}</strong>
+              <span class="evento-tipo ${tipoClass}">${tipoTexto}</span>
+              <strong>${evento.extendedProps.nome || evento.title}</strong>
             </div>
-            <div>${evento.descricao}</div>
+            <div>${evento.extendedProps.descricao}</div>
           `;
           listaEventos.appendChild(eventoDiv);
         });
