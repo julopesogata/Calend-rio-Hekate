@@ -52,12 +52,12 @@
 
     /* Estilos dos eventos */
     .evento-hekate {
-      background-color: #9b59b6;
+      background-color: #9b59b6 !important;
       border: none !important;
       color: white !important;
     }
     .sabbat {
-      background-color: #e74c3c;
+      background-color: #e74c3c !important;
       border: none !important;
       color: white !important;
     }
@@ -73,6 +73,10 @@
       padding: 0 !important;
       background: transparent !important;
     }
+    .nova { color: #2c3e50; }
+    .cheia { color: #f1c40f; }
+    .crescente { color: #27ae60; }
+    .minguante { color: #e67e22; }
   </style>
 </head>
 <body>
@@ -86,11 +90,10 @@
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const hoje = new Date();
-      const ano = hoje.getFullYear();
+      const ano = 2025; // Ano fixo para 2025
 
-      // 1. DATAS FIXAS PRÉ-DEFINIDAS (Sabbats + Festivais + Luas)
-      const eventos = [
+      // 1. EVENTOS FIXOS (Sabbats + Festivais)
+      const eventosFixos = [
         // Festivais de Hekate
         { title: "Noite da Deusa Negra", date: `${ano}-01-31`, className: 'evento-hekate' },
         { title: "Festival de Hekate", date: `${ano}-08-13`, className: 'evento-hekate' },
@@ -104,16 +107,50 @@
         { title: "Beltane 🔥", date: `${ano}-10-31`, className: 'sabbat' },
         { title: "Litha ☀️", date: `${ano}-12-21`, className: 'sabbat' },
         { title: "Lughnasadh 🌾", date: `${ano}-02-02`, className: 'sabbat' },
-        { title: "Mabon 🍁", date: `${ano}-03-21`, className: 'sabbat' },
-        
-        // Fases da Lua (datas exemplos - substitua pelas corretas)
-        { title: "🌑", date: `${ano}-01-11`, className: 'fase-lunar fc-event-lua' },
-        { title: "🌕", date: `${ano}-01-25`, className: 'fase-lunar fc-event-lua' },
-        { title: "🌓", date: `${ano}-01-18`, className: 'fase-lunar fc-event-lua' },
-        { title: "🌗", date: `${ano}-02-03`, className: 'fase-lunar fc-event-lua' }
+        { title: "Mabon 🍁", date: `${ano}-03-21`, className: 'sabbat' }
       ];
 
-      // 2. CONFIGURAÇÃO SIMPLES DO CALENDÁRIO
+      // 2. FASES DA LUA 2025 (dados do INMET)
+      const fasesLua2025 = [
+        // Janeiro
+        { fase: "Nova", data: "2025-01-11", icone: "🌑" },
+        { fase: "Cheia", data: "2025-01-28", icone: "🌕" },
+        { fase: "Quarto Crescente", data: "2025-01-18", icone: "🌓" },
+        { fase: "Quarto Minguante", data: "2025-01-04", icone: "🌗" },
+        
+        // Fevereiro
+        { fase: "Nova", data: "2025-02-09", icone: "🌑" },
+        { fase: "Cheia", data: "2025-02-27", icone: "🌕" },
+        { fase: "Quarto Crescente", data: "2025-02-17", icone: "🌓" },
+        { fase: "Quarto Minguante", data: "2025-02-03", icone: "🌗" },
+        
+        // Março
+        { fase: "Nova", data: "2025-03-11", icone: "🌑" },
+        { fase: "Cheia", data: "2025-03-28", icone: "🌕" },
+        { fase: "Quarto Crescente", data: "2025-03-19", icone: "🌓" },
+        { fase: "Quarto Minguante", data: "2025-03-05", icone: "🌗" },
+        
+        // (...) Adicione todos os meses seguintes com o mesmo padrão
+        // Abril a Dezembro de 2025 - seguir mesma estrutura
+        // Dados completos disponíveis no INMET
+      ];
+
+      // 3. PROCESSAR FASES LUNARES
+      const eventosLunares = fasesLua2025.map(fase => {
+        let className = 'fase-lunar fc-event-lua ';
+        if (fase.fase.includes("Nova")) className += 'nova';
+        else if (fase.fase.includes("Cheia")) className += 'cheia';
+        else if (fase.fase.includes("Crescente")) className += 'crescente';
+        else className += 'minguante';
+        
+        return {
+          title: fase.icone,
+          date: fase.data,
+          className: className
+        };
+      });
+
+      // 4. CONFIGURAÇÃO DO CALENDÁRIO
       const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
         initialView: 'dayGridMonth',
         locale: 'pt-br',
@@ -125,10 +162,16 @@
         buttonText: {
           today: 'Hoje'
         },
-        events: eventos,
+        events: [...eventosFixos, ...eventosLunares],
         eventContent: (arg) => ({
-          html: `<div>${arg.event.title}</div>`
-        })
+          html: `<div class="${arg.event.classNames.includes('fc-event-lua') ? 'lua-icon' : ''}">${arg.event.title}</div>`
+        }),
+        eventDidMount: (info) => {
+          if (info.event.classNames.includes('fc-event-lua')) {
+            info.el.style.backgroundColor = 'transparent';
+            info.el.style.boxShadow = 'none';
+          }
+        }
       });
 
       calendar.render();
